@@ -20,6 +20,8 @@ void URocketEngine::BeginPlay()
 	GetOwnerRoot();
 
 	BindToInput();
+
+	FindFuelTank();
 	
 }
 
@@ -39,6 +41,8 @@ void URocketEngine::AddEngineForce(float DeltaTime)
 		GetOwner()->GetActorForwardVector() * DeltaTime * Coefficient * Thrust * InputComponent->GetAxisValue("EngineForward");
 
 	OwnerRoot->AddForce(Force);
+
+	FuelWaste(Force.Size() / Coefficient * DeltaTime * EngineThrustEfficiency);
 }
 
 void URocketEngine::BindToInput()
@@ -107,6 +111,26 @@ void URocketEngine::FullStop(float DeltaTime)
 		}
 		
 		OwnerRoot->AddForce(-Force);
+
+		FuelWaste(Force.Size() / Coefficient * DeltaTime * EngineFullStopEfficiency);
+	}
+}
+
+void URocketEngine::FindFuelTank()
+{
+	FuelTank = GetOwner()->FindComponentByClass<UFuelTank>();
+}
+
+void URocketEngine::FuelWaste(float Amount)
+{
+	if (FuelTank)
+	{
+		if (FuelTank->GetCurrentFuel() == 0.0f)
+		{
+			StopEngine();
+		}
+
+		FuelTank->RemoveFuel(Amount);
 	}
 }
 

@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "FuelTank.h"
 #include "Components/ActorComponent.h"
 #include "RocketEngine.generated.h"
 
@@ -34,12 +35,20 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Engine");
 	float ThrustFullStop = 100.0f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Engine");
+	float EngineThrustEfficiency = 1.0f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Engine");
+	float EngineFullStopEfficiency = 1.0f;
 	
 private:
 	
 	UPrimitiveComponent* OwnerRoot;
 
 	UInputComponent* InputComponent;
+
+	UFuelTank* FuelTank;
 
 	bool bFullStop;
 
@@ -58,4 +67,8 @@ private:
 	void FullStopFalse();
 
 	void FullStop(float DeltaTime);
+
+	void FindFuelTank();
+
+	void FuelWaste(float Amount);
 };
