@@ -49,10 +49,6 @@ private:
 
 	void FindEngine();
 
-	void TurnOnControllerRotation();
-
-	void TurnOffControllerRotation();
-
 	bool bDock;
 
 	float CollisionDistance;

@@ -44,8 +44,6 @@ void UDock::Dock()
 				EAttachmentRule::KeepWorld,
 			false}
 		);
-
-		TurnOffControllerRotation();
 	}
 }
 
@@ -55,7 +53,6 @@ void UDock::UnDock()
 	GetOwner()->DetachFromActor({EDetachmentRule::KeepWorld, false});
 	PhysxComponent->SetSimulatePhysics(true);
 	RocketEngine->StartEngine();
-	TurnOnControllerRotation();
 	bDock = false;
 }
 
@@ -119,25 +116,6 @@ void UDock::FindOwnerPhysxComponent()
 void UDock::FindEngine()
 {
 	RocketEngine = GetOwner()->FindComponentByClass<URocketEngine>();
-}
-
-void UDock::TurnOnControllerRotation()
-{
-	auto OwnerPawn = GetOwner<APawn>();
-	
-	OwnerPawn->GetController()->SetControlRotation(OwnerPawn->GetActorRotation());
-	OwnerPawn->bUseControllerRotationPitch = true;
-	OwnerPawn->bUseControllerRotationRoll = true;
-	OwnerPawn->bUseControllerRotationYaw = true;
-}
-
-void UDock::TurnOffControllerRotation()
-{
-	auto OwnerPawn = GetOwner<APawn>();
-
-	OwnerPawn->bUseControllerRotationPitch = false;
-	OwnerPawn->bUseControllerRotationRoll = false;
-	OwnerPawn->bUseControllerRotationYaw = false;
 }
 
 // Called every frame
