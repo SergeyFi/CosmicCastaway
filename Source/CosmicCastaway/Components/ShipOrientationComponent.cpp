@@ -47,3 +47,13 @@ void UShipOrientationComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 	UpdateRotation(DeltaTime);
 }
 
+void UShipOrientationComponent::BlockOrientation()
+{
+	SetComponentTickEnabled(false);
+}
+
+void UShipOrientationComponent::UnBlockOrientation()
+{
+	SetComponentTickEnabled(true);
+}
+

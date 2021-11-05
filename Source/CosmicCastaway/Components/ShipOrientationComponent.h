@@ -19,14 +19,20 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+	UFUNCTION(BlueprintCallable, Category = "Orientation")
+	void BlockOrientation();
+
+	UFUNCTION(BlueprintCallable, Category = "Orientation")
+	void UnBlockOrientation();
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	UPROPERTY(EditDefaultsOnly, Category = "Orientation")
 	float MoveRightScale = 25.0f;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	UPROPERTY(EditDefaultsOnly, Category = "Orientation")
 	float MoveUpScale = 25.0f;
 
 private:

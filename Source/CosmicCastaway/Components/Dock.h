@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "RocketEngine.h"
+#include "ShipOrientationComponent.h"
 #include "Components/ActorComponent.h"
 #include "Dock.generated.h"
 
@@ -49,6 +50,8 @@ private:
 
 	void FindEngine();
 
+	void FindOrientationComp();
+
 	bool bDock;
 
 	float CollisionDistance;
@@ -60,4 +63,6 @@ private:
 	URocketEngine* RocketEngine;
 
 	FVector ImpactPoint;
+
+	UShipOrientationComponent* OrientationComp;
 };

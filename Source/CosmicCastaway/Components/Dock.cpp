@@ -24,6 +24,8 @@ void UDock::BeginPlay()
 	FindOwnerPhysxComponent();
 
 	FindEngine();
+
+	FindOrientationComp();
 }
 
 void UDock::Dock()
@@ -35,6 +37,7 @@ void UDock::Dock()
 
 		RocketEngine->StopEngine();
 		PhysxComponent->SetSimulatePhysics(false);
+		OrientationComp->BlockOrientation();
 		
 		GetOwner()->AttachToActor
 		(DockActor,
@@ -53,6 +56,7 @@ void UDock::UnDock()
 	GetOwner()->DetachFromActor({EDetachmentRule::KeepWorld, false});
 	PhysxComponent->SetSimulatePhysics(true);
 	RocketEngine->StartEngine();
+	OrientationComp->UnBlockOrientation();
 	bDock = false;
 }
 
@@ -116,6 +120,11 @@ void UDock::FindOwnerPhysxComponent()
 void UDock::FindEngine()
 {
 	RocketEngine = GetOwner()->FindComponentByClass<URocketEngine>();
+}
+
+void UDock::FindOrientationComp()
+{
+	OrientationComp = GetOwner()->FindComponentByClass<UShipOrientationComponent>();
 }
 
 // Called every frame
