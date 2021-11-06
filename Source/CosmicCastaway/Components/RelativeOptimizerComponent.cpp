@@ -11,7 +11,7 @@ URelativeOptimizerComponent::URelativeOptimizerComponent()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-	PrimaryComponentTick.TickInterval = 0.5f;
+	PrimaryComponentTick.TickInterval = UpdateTime;
 }
 
 
@@ -33,7 +33,7 @@ void URelativeOptimizerComponent::TickComponent(float DeltaTime, ELevelTick Tick
 	{
 		auto Sleeper = Cast<ISleepInterface>(Actor);
 		
-		if (FVector::Distance(Actor->GetActorLocation(), GetOwner()->GetActorLocation()) < 20000.0f)
+		if (FVector::Distance(Actor->GetActorLocation(), GetOwner()->GetActorLocation()) < Distance)
 		{
 			if (Sleeper->IsSleep())
 			{

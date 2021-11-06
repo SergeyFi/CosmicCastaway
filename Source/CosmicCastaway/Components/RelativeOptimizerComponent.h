@@ -21,11 +21,15 @@ protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Optimizer")
+	float Distance = 20000.0f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Optimizer")
+	float UpdateTime = 0.5f;
+
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
-	// TSet<ISleepInterface*> PrevSleepers;
 
 	TArray<AActor*> Sleepers;
 };
