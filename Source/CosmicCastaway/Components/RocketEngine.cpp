@@ -48,7 +48,10 @@ void URocketEngine::AddEngineForce(float DeltaTime)
 void URocketEngine::BindToInput()
 {
 	InputComponent = GetOwner()->FindComponentByClass<UInputComponent>();
+	
 	InputComponent->BindAxis("EngineForward");
+	InputComponent->BindAxis("ShuntingUp");
+	InputComponent->BindAxis("ShuntingRight");
 
 	InputComponent->BindAction("FullStop", EInputEvent::IE_Pressed, this, &URocketEngine::FullStopTrue);
 	InputComponent->BindAction("FullStop", EInputEvent::IE_Released, this, &URocketEngine::FullStopFalse);
@@ -73,6 +76,8 @@ void URocketEngine::TickComponent(float DeltaTime, ELevelTick TickType, FActorCo
 	AddEngineForce(DeltaTime);
 
 	FullStop(DeltaTime);
+
+	AddShuntingEnginesForce(DeltaTime);
 }
 
 void URocketEngine::StartEngine()
@@ -132,5 +137,18 @@ void URocketEngine::FuelWaste(float Amount)
 
 		FuelTank->RemoveFuel(Amount);
 	}
+}
+
+void URocketEngine::AddShuntingEnginesForce(float DeltaTime)
+{
+	auto Force =
+	GetOwner()->GetActorUpVector() * DeltaTime * Coefficient * ShuntinThrust * InputComponent->GetAxisValue("ShuntingUp");
+
+	Force +=
+	GetOwner()->GetActorRightVector() * DeltaTime * Coefficient * ShuntinThrust * InputComponent->GetAxisValue("ShuntingRight");
+
+	OwnerRoot->AddForce(Force);
+
+	FuelWaste(Force.Size() / Coefficient * DeltaTime * EngineThrustEfficiency);
 }
 

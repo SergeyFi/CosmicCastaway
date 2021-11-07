@@ -34,6 +34,9 @@ protected:
 	float Thrust = 100.0f;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Engine");
+	float ShuntinThrust = 50.0f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Engine");
 	float ThrustFullStop = 100.0f;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Engine");
@@ -71,4 +74,6 @@ private:
 	void FindFuelTank();
 
 	void FuelWaste(float Amount);
+
+	void AddShuntingEnginesForce(float DeltaTime);
 };
