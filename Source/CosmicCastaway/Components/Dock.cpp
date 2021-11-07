@@ -140,3 +140,8 @@ float UDock::GetCollisionDistance()
 	return CollisionDistance;
 }
 
+bool UDock::IsDock()
+{
+	return bDock;
+}
+

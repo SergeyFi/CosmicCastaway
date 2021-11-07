@@ -24,6 +24,9 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Dock")
 	float GetCollisionDistance();
 
+	UFUNCTION(BlueprintPure, Category = "Dock")
+	bool IsDock();
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
