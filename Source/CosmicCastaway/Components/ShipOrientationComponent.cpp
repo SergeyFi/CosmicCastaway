@@ -28,15 +28,20 @@ void UShipOrientationComponent::BindToInput()
 
 	InputComp->BindAxis("MoveRight");
 	InputComp->BindAxis("MoveUp");
+	InputComp->BindAxis("RotationZ");
 }
 
 void UShipOrientationComponent::UpdateRotation(float DeltaTime)
 {
 	FRotator RotatorResult;
+
 	RotatorResult.Yaw = (MoveRightScale * InputComp->GetAxisValue("MoveRight")) * DeltaTime;
 	RotatorResult.Pitch = (MoveUpScale * InputComp->GetAxisValue("MoveUp")) * DeltaTime;
+	RotatorResult.Roll = (MoveUpScale * InputComp->GetAxisValue("RotationZ")) * DeltaTime;
 
-	GetOwner()->AddActorLocalRotation(RotatorResult);
+	RotationInterp = FMath::RInterpTo(RotationInterp, RotatorResult, DeltaTime, RotationInterpSpeed);
+	
+	GetOwner()->AddActorLocalRotation(RotationInterp);
 }
 
 // Called every frame

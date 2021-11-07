@@ -35,6 +35,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Orientation")
 	float MoveUpScale = 25.0f;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Orientation")
+	float RotationInterpSpeed = 3.0f;
+
 private:
 
 	void BindToInput();
@@ -42,4 +45,6 @@ private:
 	UInputComponent* InputComp;
 
 	void UpdateRotation(float DeltaTime);
+
+	FRotator RotationInterp;
 };
