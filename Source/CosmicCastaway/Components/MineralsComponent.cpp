@@ -23,6 +23,16 @@ void UMineralsComponent::AddMinerals(float Value)
 	}
 }
 
+void UMineralsComponent::RemoveMinerals(float Value)
+{
+	Minerals -= Value;
+
+	if (Minerals < 0.0f)
+	{
+		Minerals = 0.0f;
+	}
+}
+
 bool UMineralsComponent::MineralsIsFull()
 {
 	return Minerals == MaxMinerals;

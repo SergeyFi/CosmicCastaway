@@ -55,6 +55,8 @@ private:
 
 	void FindOrientationComp();
 
+	void Reset();
+
 	bool bDock;
 
 	float CollisionDistance;
@@ -63,9 +65,9 @@ private:
 
 	UPrimitiveComponent* PhysxComponent;
 
-	URocketEngine* RocketEngine;
+	UPrimitiveComponent* DockComponent;
 
-	FVector ImpactPoint;
+	URocketEngine* RocketEngine;
 
 	UShipOrientationComponent* OrientationComp;
 };

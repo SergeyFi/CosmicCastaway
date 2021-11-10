@@ -2,8 +2,9 @@
 
 
 #include "Components/Dock.h"
+
+#include "Interfaces/DockInterface.h"
 #include "Kismet/KismetSystemLibrary.h"
-#include "Kismet/KismetMathLibrary.h"
 
 // Sets default values for this component's properties
 UDock::UDock()
@@ -47,11 +48,24 @@ void UDock::Dock()
 				EAttachmentRule::KeepWorld,
 			false}
 		);
+
+		auto IDockComponent = Cast<IDockInterface>(DockComponent);
+
+		if (IDockComponent)
+		{
+			IDockComponent->Dock(GetOwner<APawn>());
+		}
 	}
 }
 
 void UDock::UnDock()
 {
+	auto IDockComponent = Cast<IDockInterface>(DockComponent);
+
+	if (IDockComponent)
+	{
+		IDockComponent->UnDock(GetOwner<APawn>());
+	}
 	
 	GetOwner()->DetachFromActor({EDetachmentRule::KeepWorld, false});
 	PhysxComponent->SetSimulatePhysics(true);
@@ -100,14 +114,13 @@ void UDock::CollisionDetection()
 	{
 		CollisionDistance = HitResult.Distance;
 		DockActor = HitResult.Actor.Get();
-		ImpactPoint = HitResult.ImpactPoint;
+		DockComponent = HitResult.GetComponent();
 	}
 	else
 	{
 		if (!bDock)
 		{
-			CollisionDistance = 0.0f;
-			DockActor = nullptr;
+			Reset();
 		}
 	}
 }
@@ -125,6 +138,13 @@ void UDock::FindEngine()
 void UDock::FindOrientationComp()
 {
 	OrientationComp = GetOwner()->FindComponentByClass<UShipOrientationComponent>();
+}
+
+void UDock::Reset()
+{
+	CollisionDistance = 0.0f;
+	DockActor = nullptr;
+	DockComponent = nullptr;
 }
 
 // Called every frame

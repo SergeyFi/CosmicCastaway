@@ -19,6 +19,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Minerals")
 	void AddMinerals(float Value);
 
+	UFUNCTION(BlueprintCallable, Category = "Minerals")
+	void RemoveMinerals(float Value);
+
 	UFUNCTION(BlueprintPure, Category = "Minerals")
 	bool MineralsIsFull();
 
