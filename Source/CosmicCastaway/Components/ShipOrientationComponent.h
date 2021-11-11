@@ -38,6 +38,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Orientation")
 	float RotationInterpSpeed = 3.0f;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Orientation")
+	float InputScale = 4.0f;
+
 private:
 
 	void BindToInput();

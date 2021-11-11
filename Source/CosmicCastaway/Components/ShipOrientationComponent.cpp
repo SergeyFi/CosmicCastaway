@@ -39,6 +39,8 @@ void UShipOrientationComponent::UpdateRotation(float DeltaTime)
 	RotatorResult.Pitch = (MoveUpScale * InputComp->GetAxisValue("MoveUp")) * DeltaTime;
 	RotatorResult.Roll = (MoveUpScale * InputComp->GetAxisValue("RotationZ")) * DeltaTime;
 
+	RotatorResult *= InputScale;
+
 	RotationInterp = FMath::RInterpTo(RotationInterp, RotatorResult, DeltaTime, RotationInterpSpeed);
 	
 	GetOwner()->AddActorLocalRotation(RotationInterp);
