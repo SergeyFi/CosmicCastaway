@@ -18,6 +18,9 @@ public:
 	UHealthComponent();
 
 	UFUNCTION(BlueprintCallable, Category = "Health")
+	void SetHealth(float Value);
+
+	UFUNCTION(BlueprintCallable, Category = "Health")
 	void RemoveHealth(float Damage);
 
 	UFUNCTION(BlueprintPure, Category = "Health")

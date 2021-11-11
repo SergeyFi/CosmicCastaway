@@ -12,6 +12,11 @@ UHealthComponent::UHealthComponent()
 
 }
 
+void UHealthComponent::SetHealth(float Value)
+{
+	HealthCurrent = Value;
+}
+
 void UHealthComponent::RemoveHealth(float Damage)
 {
 	HealthCurrent -= Damage;
