@@ -18,6 +18,11 @@ float UFuelTank::GetCurrentFuel()
 	return FuelCurrent;
 }
 
+bool UFuelTank::IsFull()
+{
+	return FuelCurrent == FuelMax;
+}
+
 void UFuelTank::RemoveFuel(float Value)
 {
 	FuelCurrent -= Value;
@@ -26,6 +31,21 @@ void UFuelTank::RemoveFuel(float Value)
 	{
 		FuelCurrent = 0.0f;
 	}
+}
+
+void UFuelTank::AddFuel(float Value)
+{
+	FuelCurrent += Value;
+
+	if (FuelCurrent > FuelMax)
+	{
+		FuelCurrent = FuelMax;
+	}
+}
+
+float UFuelTank::GetFuelMax()
+{
+	return FuelMax;
 }
 
 

@@ -19,8 +19,17 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Fuel")
 	float GetCurrentFuel();
 
+	UFUNCTION(BlueprintPure, Category = "Fuel")
+	bool IsFull();
+
 	UFUNCTION(BlueprintCallable, Category = "Fuel")
 	void RemoveFuel(float Value);
+
+	UFUNCTION(BlueprintCallable, Category = "Fuel")
+	void AddFuel(float Value);
+
+	UFUNCTION(BlueprintPure, Category = "Fuel")
+	float GetFuelMax();
 
 protected:
 	// Called when the game starts

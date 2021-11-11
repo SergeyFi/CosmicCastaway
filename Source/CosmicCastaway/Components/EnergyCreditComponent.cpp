@@ -31,6 +31,21 @@ float UEnergyCreditComponent::GetCredits()
 	return CreditsCurrent;
 }
 
+bool UEnergyCreditComponent::IsEmpty()
+{
+	return CreditsCurrent == 0.0f;
+}
+
+void UEnergyCreditComponent::RemoveCredits(float Value)
+{
+	CreditsCurrent -= Value;
+
+	if (CreditsCurrent < 0.0f)
+	{
+		CreditsCurrent = 0.0f;
+	}
+}
+
 
 // Called when the game starts
 void UEnergyCreditComponent::BeginPlay()

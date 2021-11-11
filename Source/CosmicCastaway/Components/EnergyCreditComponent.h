@@ -22,6 +22,12 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Credits")
 	float GetCredits();
 
+	UFUNCTION(BlueprintPure, Category = "Credits")
+	bool IsEmpty();
+
+	UFUNCTION(BlueprintCallable, Category = "Credits")
+	void RemoveCredits(float Value);
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
