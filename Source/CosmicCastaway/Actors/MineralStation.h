@@ -44,6 +44,8 @@ private:
 
 	void StopConversion();
 
+	void RandomRotation();
+
 	FTimerHandle ConversionTimer;
 
 	UMineralsComponent* MineralsComp;

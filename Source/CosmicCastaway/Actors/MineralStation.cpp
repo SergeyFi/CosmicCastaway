@@ -4,6 +4,7 @@
 #include "Actors/MineralStation.h"
 
 #include "Components/StationModules/DockModule.h"
+#include "Kismet/KismetMathLibrary.h"
 
 // Sets default values
 AMineralStation::AMineralStation()
@@ -19,6 +20,8 @@ void AMineralStation::BeginPlay()
 	Super::BeginPlay();
 
 	BindToDocks();
+
+	RandomRotation();
 }
 
 void AMineralStation::OnDock(APawn* Docker)
@@ -92,4 +95,9 @@ void AMineralStation::StopConversion()
 
 	MineralsComp = nullptr;
 	CreditsComp = nullptr;
+}
+
+void AMineralStation::RandomRotation()
+{
+	SetActorRotation(UKismetMathLibrary::RandomRotator());
 }
