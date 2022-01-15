@@ -28,6 +28,10 @@ class COSMICCASTAWAY_API UResource : public UObject
 {
 	GENERATED_BODY()
 
+public:
+
+	void AddWeight(float Value);
+	
 protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Resources")

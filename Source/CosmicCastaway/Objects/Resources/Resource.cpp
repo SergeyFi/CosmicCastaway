@@ -3,3 +3,7 @@
 
 #include "Objects/Resources/Resource.h"
 
+void UResource::AddWeight(float Value)
+{
+	Weight += Value;
+}
