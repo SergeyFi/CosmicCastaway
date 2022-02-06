@@ -24,15 +24,15 @@ void AAsteroid::BeginPlay()
 
 void AAsteroid::SetChildCollision(bool bCollision)
 {
-	TArray<USceneComponent*> MineralsComp;
+	TArray<USceneComponent*> ChildsComp;
 	
-	GetRootComponent()->GetChildrenComponents(false, MineralsComp);
+	GetRootComponent()->GetChildrenComponents(false, ChildsComp);
 
-	for (auto MineralMesh : MineralsComp)
+	for (auto ChildsMesh : ChildsComp)
 	{
-		if (MineralMesh->GetOwner() != this)
+		if (ChildsMesh->GetOwner() != this)
 		{
-			MineralMesh->GetOwner()->SetActorEnableCollision(bCollision);
+			ChildsMesh->GetOwner()->SetActorEnableCollision(bCollision);
 		}
 	}
 }
