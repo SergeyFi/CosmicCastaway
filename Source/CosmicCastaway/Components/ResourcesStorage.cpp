@@ -12,35 +12,73 @@ UResourcesStorage::UResourcesStorage()
 
 float UResourcesStorage::AddResource(TSubclassOf<UResource> ResourceClass, float Value)
 {
-	auto ResExisted = Resources.Find(ResourceClass);
-	auto Mass = Value * ResourceClass->GetDefaultObject<UResource>()->GetMolarMass();
-
-	float Remainder = 0.0f;
-
-	if (MassMax != 0.0f)
+	auto Remainder = 0.0f;
+	
+	if (ResourceClass)
 	{
-		auto DiffMass = MassMax - MassCurrent;
+		auto ResourceMass = GetResourceMass(ResourceClass, Value);
 
-		if (Mass > DiffMass)
+		auto ExcessMass = MassMax - (ResourceMass + MassCurrent);
+
+		if (ExcessMass < 0.0f)
 		{
-			Remainder = Value - DiffMass;
-			Value = DiffMass;
-		}
-	}
-	
-	if (ResExisted == nullptr)
-	{
-	
-		Resources.Add(ResourceClass, {ResourceClass, Value});
-	}
-	else
-	{
-		(*ResExisted).Value += Value;
-	}
+			ExcessMass *= -1.0f;
 
-	MassCurrent += Mass;
+			Remainder = Value * (ExcessMass / ResourceMass);
+			Value -= Remainder;
+
+			ResourceMass -= ExcessMass;
+		}
+
+		auto Res = Resources.Find(ResourceClass);
+
+		if (Res)
+		{
+			*Res += Value;
+		}
+		else
+		{
+			Resources.Add(ResourceClass, Value);
+		}
+
+		MassCurrent += ResourceMass;
+	}
 
 	return Remainder;
+}
+
+float UResourcesStorage::GetResource(TSubclassOf<UResource> ResourceClass)
+{
+	auto Res = Resources.Find(ResourceClass);
+	
+	if (Res)
+	{
+		return *Res;
+	}
+	
+	return 0.0f;
+}
+
+void UResourcesStorage::RemoveResource(TSubclassOf<UResource> ResourceClass, float Value)
+{
+	auto Res = Resources.Find(ResourceClass);
+	
+	if (Res)
+	{
+		*Res -= Value;
+
+		MassCurrent -= GetResourceMass(ResourceClass, Value);
+	}
+}
+
+float UResourcesStorage::GetMassCurrent()
+{
+	return MassCurrent;
+}
+
+float UResourcesStorage::GetMassMax()
+{
+	return MassMax;
 }
 
 
@@ -51,4 +89,9 @@ void UResourcesStorage::BeginPlay()
 
 	// ...
 	
+}
+
+float UResourcesStorage::GetResourceMass(TSubclassOf<UResource> ResClass, float Value)
+{
+	return (ResClass->GetDefaultObject<UResource>()->GetMolarMass() / MassCoefficient) * Value;
 }

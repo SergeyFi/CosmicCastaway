@@ -17,20 +17,36 @@ public:
 	// Sets default values for this component's properties
 	UResourcesStorage();
 
-	// Will return remainder
 	UFUNCTION(BlueprintCallable, Category = "Resources")
 	float AddResource(TSubclassOf<UResource> ResourceClass, float Value);
+
+	UFUNCTION(BlueprintPure, Category = "Resources")
+	float GetResource(TSubclassOf<UResource> ResourceClass);
+
+	UFUNCTION(BlueprintCallable, Category = "Resources")
+	void RemoveResource(TSubclassOf<UResource> ResourceClass, float Value);
+
+	UFUNCTION(BlueprintPure, Category = "Resources")
+	float GetMassCurrent();
+
+	UFUNCTION(BlueprintPure, Category = "Resources")
+	float GetMassMax();
 
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
 	UPROPERTY(EditDefaultsOnly)
-	TMap<TSubclassOf<UResource>,FResourceValue> Resources;
+	TMap<TSubclassOf<UResource>, float> Resources;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Resources")
 	float MassCurrent;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Resources")
 	float MassMax = 100.0f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Resources")
+	float MassCoefficient = 1000.0f;
+
+	float GetResourceMass(TSubclassOf<UResource> ResClass, float Value);
 };
