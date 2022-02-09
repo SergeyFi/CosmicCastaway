@@ -19,18 +19,18 @@ public:
 
 	// Will return remainder
 	UFUNCTION(BlueprintCallable, Category = "Resources")
-	float AddResource(TSubclassOf<UResource> ResourceClass, float Weight);
+	float AddResource(TSubclassOf<UResource> ResourceClass, float Value);
 
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
 	UPROPERTY(EditDefaultsOnly)
-	TMap<TSubclassOf<UResource>,UResource*> Resources;
+	TMap<TSubclassOf<UResource>,FResourceValue> Resources;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Resources")
-	float WeightCurrent;
+	float MassCurrent;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Resources")
-	float WeightMax;
+	float MassMax = 100.0f;
 };

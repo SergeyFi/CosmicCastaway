@@ -10,34 +10,35 @@ UResourcesStorage::UResourcesStorage()
 
 }
 
-float UResourcesStorage::AddResource(TSubclassOf<UResource> ResourceClass, float Weight)
+float UResourcesStorage::AddResource(TSubclassOf<UResource> ResourceClass, float Value)
 {
 	auto ResExisted = Resources.Find(ResourceClass);
+	auto Mass = Value * ResourceClass->GetDefaultObject<UResource>()->GetMolarMass();
 
 	float Remainder = 0.0f;
 
-	if (WeightMax != 0.0f)
+	if (MassMax != 0.0f)
 	{
-		auto Diff = WeightMax - WeightCurrent;
+		auto DiffMass = MassMax - MassCurrent;
 
-		if (Weight > Diff)
+		if (Mass > DiffMass)
 		{
-			Remainder = Weight - Diff;
-			Weight = Diff;
+			Remainder = Value - DiffMass;
+			Value = DiffMass;
 		}
 	}
 	
 	if (ResExisted == nullptr)
 	{
-		auto Resource = NewObject<UResource>(GetOwner(), ResourceClass);
-		Resource->AddWeight(Weight);
 	
-		Resources.Add(ResourceClass, Resource);
+		Resources.Add(ResourceClass, {ResourceClass, Value});
 	}
 	else
 	{
-		(*ResExisted)->AddWeight(Weight);
+		(*ResExisted).Value += Value;
 	}
+
+	MassCurrent += Mass;
 
 	return Remainder;
 }

@@ -10,6 +10,8 @@ AAsteroid::AAsteroid()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	AsteroidMesh = CreateDefaultSubobject<UStaticMeshComponent>("AsteroidMesh");
+	RootComponent = AsteroidMesh;
 }
 
 // Called when the game starts or when spawned
@@ -18,6 +20,10 @@ void AAsteroid::BeginPlay()
 	Super::BeginPlay();
 
 	RandomRotation = UKismetMathLibrary::RandomRotator();
+
+	Randomize();
+
+	GenerateOre();
 
 	Sleep();
 }
@@ -35,6 +41,63 @@ void AAsteroid::SetChildCollision(bool bCollision)
 			ChildsMesh->GetOwner()->SetActorEnableCollision(bCollision);
 		}
 	}
+}
+
+void AAsteroid::Randomize()
+{
+	if (AsteroidMeshes.Num() != 0)
+	{
+		auto RandomMesh = AsteroidMeshes[FMath::RandRange(0, AsteroidMeshes.Num()-1)];
+		Cast<UStaticMeshComponent>(RootComponent)->SetStaticMesh(RandomMesh);
+	}
+	
+	SetActorRotation(UKismetMathLibrary::RandomRotator(true));
+
+	auto RandomScale = FMath::RandRange(ScaleMin, ScaleMax);
+	SetActorScale3D({RandomScale, RandomScale, RandomScale});
+}
+
+void AAsteroid::GenerateOre()
+{
+	if (OresInfo.Num() != 0)
+	{
+		auto SocketNames = AsteroidMesh->GetAllSocketNames();
+
+		for (auto i = 0; i < SocketNames.Num(); ++i)
+		{
+			auto Ore = GetWorld()->SpawnActor<AOre>(GetRandomOreClass(), AsteroidMesh->GetSocketTransform(SocketNames[i]));
+
+			Ores.Add(Ore);
+			
+			Ore->AttachToActor(this, FAttachmentTransformRules::KeepWorldTransform, SocketNames[i]);
+		}
+	}
+}
+
+TSubclassOf<AOre> AAsteroid::GetRandomOreClass()
+{
+	TArray<int32> Chances;
+
+	int32 Sum = 0;
+
+	for (auto OreInfo : OresInfo)
+	{
+		Sum += OreInfo.SpawnChance;
+
+		Chances.Add(Sum);
+	}
+
+	auto Chance = FMath::RandRange(0, Chances.Last());
+
+	for (auto i = 0; i < Chances.Num();++i)
+	{
+		if (Chance <= Chances[i])
+		{
+			return OresInfo[i].OreClass;
+		}
+	}
+
+	return OresInfo[0].OreClass;
 }
 
 // Called every frame

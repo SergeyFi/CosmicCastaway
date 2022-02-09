@@ -11,7 +11,7 @@
  */
 
 USTRUCT(BlueprintType)
-struct FDecompProduct
+struct FResourceValue
 {
 	GENERATED_BODY()
 
@@ -19,9 +19,8 @@ struct FDecompProduct
 	TSubclassOf<class UResource> Resource;
 
 	UPROPERTY(EditDefaultsOnly)
-	float Weight;
+	float Value;
 };
-
 
 UCLASS(Blueprintable, meta = (IsBlueprintBase = "true"))
 class COSMICCASTAWAY_API UResource : public UObject
@@ -30,7 +29,7 @@ class COSMICCASTAWAY_API UResource : public UObject
 
 public:
 
-	void AddWeight(float Value);
+	float GetMolarMass();
 	
 protected:
 
@@ -38,9 +37,9 @@ protected:
 	FName Name;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Resources")
-	float Weight;
+	float MolarMass;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Resources")
-	TArray<FDecompProduct> DecompProducts;
+	TArray<TSubclassOf<UResource>> DecompProducts;
 };
 

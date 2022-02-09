@@ -3,7 +3,7 @@
 
 #include "Objects/Resources/Resource.h"
 
-void UResource::AddWeight(float Value)
+float UResource::GetMolarMass()
 {
-	Weight += Value;
+	return MolarMass;
 }
