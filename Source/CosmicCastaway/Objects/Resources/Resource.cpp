@@ -7,3 +7,13 @@ float UResource::GetMolarMass()
 {
 	return MolarMass;
 }
+
+const TArray<FResourceValue>& UResource::GetDecompProducts()
+{
+	return DecompProducts;
+}
+
+float UResource::GetSplittingEnergy()
+{
+	return SplittingEnergy;
+}

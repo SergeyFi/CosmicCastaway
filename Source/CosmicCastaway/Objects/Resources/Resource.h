@@ -30,6 +30,10 @@ class COSMICCASTAWAY_API UResource : public UObject
 public:
 
 	float GetMolarMass();
+
+	const TArray<FResourceValue>& GetDecompProducts();
+
+	float GetSplittingEnergy();
 	
 protected:
 
@@ -40,6 +44,9 @@ protected:
 	float MolarMass;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Resources")
-	TArray<TSubclassOf<UResource>> DecompProducts;
+	float SplittingEnergy = 1.0f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Resources")
+	TArray<FResourceValue> DecompProducts;
 };
 
