@@ -14,14 +14,30 @@ AOre::AOre()
 
 }
 
-TArray<FResourceValue>& AOre::GetResources()
+FResourceValue AOre::MineResource(float Value)
 {
-	return Resources;
+	if (Resource.Value <= 0.0f)
+	{
+		DestroyOre();
+		return {Resource.Resource, 0.0f};
+	}
+	
+	float Amount = Value;
+	
+	if (Resource.Value < Value)
+	{
+		Amount = Resource.Value;
+	}
+
+	Resource.Value -= Amount;
+	
+	return {Resource.Resource, Amount};
 }
 
 // Called when the game starts or when spawned
 void AOre::BeginPlay()
 {
 	Super::BeginPlay();
+
 	
 }

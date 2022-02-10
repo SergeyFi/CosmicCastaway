@@ -20,6 +20,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Resources")
 	float AddResource(TSubclassOf<UResource> ResourceClass, float Value);
 
+	UFUNCTION(BlueprintCallable, Category = "Resources")
+	float AddResourceByValue(FResourceValue Value);
+
 	UFUNCTION(BlueprintPure, Category = "Resources")
 	float GetResource(TSubclassOf<UResource> ResourceClass);
 

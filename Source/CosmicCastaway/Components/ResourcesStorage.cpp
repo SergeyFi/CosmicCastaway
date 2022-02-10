@@ -47,6 +47,11 @@ float UResourcesStorage::AddResource(TSubclassOf<UResource> ResourceClass, float
 	return Remainder;
 }
 
+float UResourcesStorage::AddResourceByValue(FResourceValue Value)
+{
+	return AddResource(Value.Resource, Value.Value);
+}
+
 float UResourcesStorage::GetResource(TSubclassOf<UResource> ResourceClass)
 {
 	auto Res = Resources.Find(ResourceClass);

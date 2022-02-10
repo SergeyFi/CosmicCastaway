@@ -18,16 +18,18 @@ public:
 	// Sets default values for this actor's properties
 	AOre();
 
-	UFUNCTION(BlueprintCallable, Category = "Ore")
-	TArray<FResourceValue>& GetResources();
+	FResourceValue MineResource(float Value);
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Ore")
-	TArray<FResourceValue> Resources;
+	FResourceValue Resource;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Ore")
 	UStaticMeshComponent* OreMesh;
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void DestroyOre();
 };
