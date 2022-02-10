@@ -75,6 +75,7 @@ void UResMiningComponent::MineStop()
 {
 	bMining = false;
 	SetComponentTickEnabled(false);
+	DockComponent->UnDock();
 
 #if WITH_EDITOR
 	if (bDebug)

@@ -27,6 +27,8 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Dock")
 	bool IsDock();
 
+	void UnDock();
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
@@ -40,8 +42,6 @@ protected:
 private:
 
 	void Dock();
-
-	void UnDock();
 
 	void DockSwitching();
 
