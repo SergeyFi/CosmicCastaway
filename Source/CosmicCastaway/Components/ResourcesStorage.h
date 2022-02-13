@@ -49,7 +49,7 @@ protected:
 	float MassMax = 100.0f;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Resources")
-	float MassCoefficient = 1000.0f;
+	float MassCoefficient = 100.0f;
 
 	float GetResourceMass(TSubclassOf<UResource> ResClass, float Value);
 };

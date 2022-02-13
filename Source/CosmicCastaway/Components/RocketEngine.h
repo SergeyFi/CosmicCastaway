@@ -3,8 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "FuelTank.h"
+#include "ResourcesStorage.h"
 #include "Components/ActorComponent.h"
+#include "Objects/ShipModules/EngineShipModule.h"
 #include "RocketEngine.generated.h"
 
 
@@ -26,32 +27,24 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Engine")
 	void StopEngine();
 
+	UFUNCTION(BlueprintCallable, Category = "Engine")
+	void SetEngineModule(TSubclassOf<UEngineShipModule> ShipModule);
+
+	UFUNCTION(BlueprintPure, Category = "Engine")
+	const TArray<FResourceValue>& GetFuelType();
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Engine");
-	float Thrust = 100.0f;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Engine");
-	float ShuntinThrust = 50.0f;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Engine");
-	float ThrustFullStop = 100.0f;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Engine");
-	float EngineThrustEfficiency = 1.0f;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Engine");
-	float EngineFullStopEfficiency = 1.0f;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Engine")
+	TSubclassOf<UEngineShipModule> DefaultEngineModule;
 	
 private:
 	
 	UPrimitiveComponent* OwnerRoot;
 
 	UInputComponent* InputComponent;
-
-	UFuelTank* FuelTank;
 
 	bool bFullStop;
 
@@ -70,10 +63,12 @@ private:
 	void FullStopFalse();
 
 	void FullStop(float DeltaTime);
-
-	void FindFuelTank();
-
+	
 	void FuelWaste(float Amount);
 
 	void AddShuntingEnginesForce(float DeltaTime);
+	
+	FEngineProperties EngineProperties;
+
+	UResourcesStorage* ResStorage;
 };
