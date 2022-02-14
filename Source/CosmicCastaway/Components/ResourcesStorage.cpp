@@ -13,6 +13,11 @@ UResourcesStorage::UResourcesStorage()
 float UResourcesStorage::AddResource(TSubclassOf<UResource> ResourceClass, float Value)
 {
 	auto Remainder = 0.0f;
+
+	if (Value <= 0.0f)
+	{
+		return 0.0f;
+	}
 	
 	if (ResourceClass)
 	{
@@ -70,9 +75,17 @@ void UResourcesStorage::RemoveResource(TSubclassOf<UResource> ResourceClass, flo
 	
 	if (Res)
 	{
-		*Res -= Value;
+		if (*Res - Value > 0.0f)
+		{
+			*Res -= Value;
 
-		MassCurrent -= GetResourceMass(ResourceClass, Value);
+			MassCurrent -= GetResourceMass(ResourceClass, Value);
+		}
+		else
+		{
+			MassCurrent -= GetResourceMass(ResourceClass, *Res);
+			*Res = 0.0f;
+		}
 	}
 }
 
