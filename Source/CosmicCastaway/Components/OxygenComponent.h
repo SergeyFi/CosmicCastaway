@@ -23,6 +23,9 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Oxygen")
 	float GetCurrentOxygen();
 
+	UFUNCTION(BlueprintPure, Category = "Oxygen")
+	float GetWastePerSeconds();
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;

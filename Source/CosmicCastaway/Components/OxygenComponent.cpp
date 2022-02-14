@@ -34,3 +34,8 @@ float UOxygenComponent::GetCurrentOxygen()
 	return ResStorage->GetResource(OxygenClass);
 }
 
+float UOxygenComponent::GetWastePerSeconds()
+{
+	return OxygenWastePerSeconds;
+}
+
