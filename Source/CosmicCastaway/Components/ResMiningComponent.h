@@ -35,10 +35,8 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Mining")
 	TSubclassOf<UMiningModule> MiningModule;
 
-#if WITH_EDITOR
 	UPROPERTY(EditAnywhere, Category = "Mining")
 	bool bDebug;
-#endif
 
 	UFUNCTION()
 	void MineSwitch();
