@@ -27,6 +27,15 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Collision")
 	FVector GetCollisionLocation();
 
+	UFUNCTION(BlueprintPure, Category = "Collision")
+	float GetDetectorLength();
+
+	UFUNCTION(BlueprintPure, Category = "Collision")
+	bool IsColliding();
+
+	UFUNCTION(BlueprintPure, Category = "Collision")
+	float GetDistanceCollision();
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
@@ -50,5 +59,9 @@ private:
 	float CollisionTime;
 
 	FVector CollisionLocation;
+
+	bool bColliding;
+
+	float CollisionDistance;
 		
 };

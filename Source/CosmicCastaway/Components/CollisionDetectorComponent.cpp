@@ -40,7 +40,7 @@ float UCollisionDetectorComponent::GetCollisionDistance()
 	End *= DetectorLength;
 	End += GetOwner()->GetActorLocation();
 	
-	UKismetSystemLibrary::SphereTraceSingle
+	bColliding = UKismetSystemLibrary::SphereTraceSingle
 	(
 		GetOwner(),
 		GetOwner()->GetActorLocation(),
@@ -55,6 +55,7 @@ float UCollisionDetectorComponent::GetCollisionDistance()
 	);
 
 	CollisionLocation = HitResult.Location;
+	CollisionDistance = HitResult.Distance;
 
 	return HitResult.Distance;
 }
@@ -76,5 +77,20 @@ float UCollisionDetectorComponent::GetCollisionTime()
 FVector UCollisionDetectorComponent::GetCollisionLocation()
 {
 	return CollisionLocation;
+}
+
+float UCollisionDetectorComponent::GetDetectorLength()
+{
+	return DetectorLength;
+}
+
+bool UCollisionDetectorComponent::IsColliding()
+{
+	return bColliding;
+}
+
+float UCollisionDetectorComponent::GetDistanceCollision()
+{
+	return CollisionDistance;
 }
 
