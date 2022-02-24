@@ -86,6 +86,11 @@ void UResourcesStorage::RemoveResource(TSubclassOf<UResource> ResourceClass, flo
 			MassCurrent -= GetResourceMass(ResourceClass, *Res);
 			*Res = 0.0f;
 		}
+
+		if (*Res == 0.0f)
+		{
+			Resources.Remove(ResourceClass);
+		}
 	}
 }
 
@@ -97,6 +102,18 @@ float UResourcesStorage::GetMassCurrent()
 float UResourcesStorage::GetMassMax()
 {
 	return MassMax;
+}
+
+TArray<TSubclassOf<UResource>> UResourcesStorage::GetResourcesClasses()
+{
+	TArray<TSubclassOf<UResource>> ResourceClasses;
+
+	for (auto Res : Resources)
+	{
+		ResourceClasses.Add(Res.Key);
+	}
+
+	return ResourceClasses;
 }
 
 

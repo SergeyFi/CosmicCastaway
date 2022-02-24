@@ -37,16 +37,19 @@ public:
 	
 protected:
 
-	UPROPERTY(EditDefaultsOnly, Category = "Resources")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Resources")
 	FName Name;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Resources")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Resources")
 	float MolarMass;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Resources")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Resources")
 	float SplittingEnergy = 1.0f;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Resources")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Resources")
 	TArray<FResourceValue> DecompProducts;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Resources")
+	FColor Color;
 };
 

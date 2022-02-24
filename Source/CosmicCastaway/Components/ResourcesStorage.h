@@ -35,6 +35,9 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Resources")
 	float GetMassMax();
 
+	UFUNCTION(BlueprintPure, Category = "Resources")
+	TArray<TSubclassOf<UResource>> GetResourcesClasses();
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
