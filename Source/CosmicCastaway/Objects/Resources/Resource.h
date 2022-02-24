@@ -50,6 +50,6 @@ protected:
 	TArray<FResourceValue> DecompProducts;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Resources")
-	FColor Color;
+	FLinearColor Color;
 };
 
