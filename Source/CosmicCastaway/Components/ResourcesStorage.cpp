@@ -116,14 +116,35 @@ TArray<TSubclassOf<UResource>> UResourcesStorage::GetResourcesClasses()
 	return ResourceClasses;
 }
 
+void UResourcesStorage::SplitResource(TSubclassOf<UResource> ResourceClass, float DeltaTime)
+{
+	if (ResourceClass->GetDefaultObject<UResource>()->GetDecompProducts().Num() > 0 && GetResource(ResourceClass) > 0.0f)
+	{
+		DeltaTime *= ConversionSpeed;
+		
+		float EnergyToSplit = ResourceClass->GetDefaultObject<UResource>()->GetSplittingEnergy() * DeltaTime;
+
+		if (EnergyToSplit < EnergyCreditComponent->GetCredits())
+		{
+			EnergyCreditComponent->RemoveCredits(EnergyToSplit);
+		
+			for (const auto& Res : ResourceClass->GetDefaultObject<UResource>()->GetDecompProducts())
+			{
+				AddResource(Res.Resource, Res.Value * DeltaTime);
+			}
+
+			RemoveResource(ResourceClass, DeltaTime);
+		}
+	}
+}
+
 
 // Called when the game starts
 void UResourcesStorage::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
-	
+	EnergyCreditComponent = GetOwner()->FindComponentByClass<UEnergyCreditComponent>();
 }
 
 float UResourcesStorage::GetResourceMass(TSubclassOf<UResource> ResClass, float Value)

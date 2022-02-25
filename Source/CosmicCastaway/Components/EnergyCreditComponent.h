@@ -34,8 +34,8 @@ protected:
     
     UPROPERTY(EditDefaultsOnly, Category = "Credits")
 	float CreditsMax = 5000.0f;
-private:
 
+	UPROPERTY(EditDefaultsOnly, Category = "Credits")
 	float CreditsCurrent;
 		
 };

@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "Objects/Resources/Resource.h"
+#include "EnergyCreditComponent.h"
 #include "ResourcesStorage.generated.h"
 
 
@@ -38,6 +39,9 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Resources")
 	TArray<TSubclassOf<UResource>> GetResourcesClasses();
 
+	UFUNCTION(BlueprintCallable, Category = "Resources")
+	void SplitResource(TSubclassOf<UResource> ResourceClass, float DeltaTime);
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
@@ -55,4 +59,11 @@ protected:
 	float MassCoefficient = 100.0f;
 
 	float GetResourceMass(TSubclassOf<UResource> ResClass, float Value);
+
+	UPROPERTY(EditDefaultsOnly,  Category = "Resources")
+	float ConversionSpeed = 9.0f;
+
+private:
+	
+	UEnergyCreditComponent* EnergyCreditComponent;
 };
