@@ -29,11 +29,17 @@ void UCollisionMarkerComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 	FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+	auto LookAtRot = UKismetMathLibrary::FindLookAtRotation(GetOwner()->GetActorLocation(), GetComponentLocation());
+
+	auto Direction = UKismetMathLibrary::NormalizedDeltaRotator(LookAtRot, GetOwner()->GetActorRotation());
+
+	auto DirectionAngleSum = (FMath::Abs(Direction.Yaw) + FMath::Abs(Direction.Pitch)) / 2.0f;
 	
 	
 	if (!CollisionDetector->IsColliding() && GetOwner()->GetVelocity().IsNearlyZero(0.5f))
 	{
-		SetWorldLocation(GetOwner()->GetActorForwardVector() * Length + GetOwner()->GetActorLocation());
+		SetWorldLocation(GetOwner()->GetActorForwardVector() * MaxLength + GetOwner()->GetActorLocation());
 
 		SetWorldScale3D({1.0f, 1.0f, 1.0f});
 		SetMaterial(0,DefaultMaterial);
@@ -42,20 +48,37 @@ void UCollisionMarkerComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 	{
 		auto VelDirection = GetOwner()->GetVelocity();
 		VelDirection.Normalize();
+
+		auto Length = UKismetMathLibrary::MapRangeClamped
+		(DirectionAngleSum, 0.0f, DirectionMaxAngle, MaxLength, 200.0f);
 		
 		SetWorldLocation(VelDirection * Length + GetOwner()->GetActorLocation());
 
-		SetWorldScale3D({1.0f, 1.0f, 1.0f});
+		auto Scale = UKismetMathLibrary::MapRangeClamped(
+		Length,
+		0.0f,
+		CollisionDetector->GetDetectorLength(),
+		0.05f, 2.00f);
+
+		SetWorldScale3D({Scale, Scale, Scale});
 		SetMaterial(0,DefaultMaterial);
 	}
 	else
 	{
-		SetWorldLocation(CollisionDetector->GetCollisionLocation());
+		auto DirectionVector = UKismetMathLibrary::GetDirectionUnitVector
+		(GetOwner()->GetActorLocation(), CollisionDetector->GetCollisionLocation());
+		
+		float CollisionLength = FVector::Distance(GetOwner()->GetActorLocation(), CollisionDetector->GetCollisionLocation());
+
+		CollisionLength = UKismetMathLibrary::MapRangeClamped
+		(DirectionAngleSum, 0.0f, CollisionMaxAngle, CollisionLength, 200.0f);
+		
+		SetWorldLocation(DirectionVector * CollisionLength + GetOwner()->GetActorLocation());
 
 		SetMaterial(0, CollisionMaterial);
 		
 		auto Scale = UKismetMathLibrary::MapRangeClamped(
-			CollisionDetector->GetDistanceCollision(),
+			CollisionLength,
 			0.0f,
 			CollisionDetector->GetDetectorLength(),
 			0.05f, 2.0f);

@@ -30,8 +30,14 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Marker")
 	UMaterialInterface* CollisionMaterial;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Marker")
-	float Length = 10000.0f;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Marker")
+	float MaxLength = 10000.0f;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Marker")
+	float DirectionMaxAngle = 30.0f;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Marker")
+	float CollisionMaxAngle = 45.0f;
 
 private:
 
