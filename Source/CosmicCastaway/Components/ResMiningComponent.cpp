@@ -192,3 +192,8 @@ void UResMiningComponent::SetMiningModule(TSubclassOf<UMiningModule> Module)
 	}
 }
 
+bool UResMiningComponent::IsMining()
+{
+	return bMining;
+}
+

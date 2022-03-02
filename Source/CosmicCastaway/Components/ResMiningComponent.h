@@ -25,6 +25,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Mining")
 	void SetMiningModule(TSubclassOf<UMiningModule> Module);
 
+	UFUNCTION(BlueprintPure, Category = "Mining")
+	bool IsMining();
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
