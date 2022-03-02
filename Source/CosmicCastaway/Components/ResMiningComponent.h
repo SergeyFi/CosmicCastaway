@@ -7,6 +7,8 @@
 #include "Components/Dock.h"
 #include "Components/SceneComponent.h"
 #include "Objects/ShipModules/MiningModule.h"
+#include "NiagaraSystem.h"
+#include "NiagaraComponent.h"
 #include "ResMiningComponent.generated.h"
 
 
@@ -38,8 +40,14 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Mining")
 	TSubclassOf<UMiningModule> MiningModule;
 
-	UPROPERTY(EditAnywhere, Category = "Mining")
+	UPROPERTY(EditDefaultsOnly, Category = "Mining")
 	bool bDebug;
+
+	UPROPERTY(EditAnywhere, Category = "Mining|FX")
+	UNiagaraSystem* NiagaraFX;
+
+	UPROPERTY(EditAnywhere, Category = "Mining|FX")
+	float FXScale = 3.0f;
 
 	UFUNCTION()
 	void MineSwitch();
@@ -63,5 +71,14 @@ private:
 	UDock* DockComponent;
 
 	UResourcesStorage* ResourcesStorage;
+
+	UPROPERTY()
+	UNiagaraComponent* NiagaraComponent;
+
+	void InitNiagara();
+
+	void StartNiagara();
+
+	void StopNiagara();
 	
 };

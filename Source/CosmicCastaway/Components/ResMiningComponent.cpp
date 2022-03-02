@@ -23,6 +23,8 @@ void UResMiningComponent::BeginPlay()
 
 	DockComponent = GetOwner()->FindComponentByClass<UDock>();
 
+	InitNiagara();
+
 #if WITH_EDITOR
 	if (!DockComponent)
 	{
@@ -77,6 +79,8 @@ void UResMiningComponent::MineStop()
 	SetComponentTickEnabled(false);
 	DockComponent->UnDock();
 
+	StopNiagara();
+
 #if WITH_EDITOR
 	if (bDebug)
 	{
@@ -89,6 +93,8 @@ void UResMiningComponent::Mine()
 {
 	bMining = true;
 	SetComponentTickEnabled(true);
+
+	StartNiagara();
 
 #if WITH_EDITOR
   	if (bDebug)
@@ -173,6 +179,27 @@ void UResMiningComponent::Mining(float DeltaTime)
 		}
 	}
 	
+}
+
+void UResMiningComponent::InitNiagara()
+{
+	NiagaraComponent = NewObject<UNiagaraComponent>(GetOwner());
+	NiagaraComponent->RegisterComponent();
+	NiagaraComponent->SetWorldLocation(GetComponentLocation());
+	NiagaraComponent->AttachToComponent(this, FAttachmentTransformRules::SnapToTargetNotIncludingScale);
+	NiagaraComponent->SetAsset(NiagaraFX);
+	NiagaraComponent->DeactivateImmediate();
+	NiagaraComponent->SetWorldScale3D({FXScale, FXScale, FXScale});
+}
+
+void UResMiningComponent::StartNiagara()
+{
+	NiagaraComponent->Activate();
+}
+
+void UResMiningComponent::StopNiagara()
+{
+	NiagaraComponent->Deactivate();
 }
 
 
