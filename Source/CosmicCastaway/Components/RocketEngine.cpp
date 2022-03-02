@@ -39,11 +39,12 @@ void URocketEngine::GetOwnerRoot()
 void URocketEngine::AddEngineForce(float DeltaTime)
 {
 	auto Force =
-		GetOwner()->GetActorForwardVector() * DeltaTime * Coefficient * EngineProperties.Thrust * InputComponent->GetAxisValue("EngineForward");
+	GetOwner()->GetActorForwardVector() * ThrustCoefficient * EngineProperties.Thrust
+	* InputComponent->GetAxisValue("EngineForward");
 
 	OwnerRoot->AddForce(Force);
 
-	FuelWaste(Force.Size() / Coefficient * DeltaTime * EngineProperties.EngineThrustEfficiency);
+	FuelWaste(Force.Size() / FuelWasteCoefficient * DeltaTime * EngineProperties.EngineThrustEfficiency);
 }
 
 void URocketEngine::BindToInput()
@@ -139,7 +140,7 @@ void URocketEngine::FullStop(float DeltaTime)
 		
 		OwnerRoot->AddForce(-Force);
 
-		FuelWaste(Force.Size() / Coefficient * DeltaTime * EngineProperties.EngineFullStopEfficiency);
+		FuelWaste(Force.Size() / FuelWasteCoefficient * DeltaTime * EngineProperties.EngineFullStopEfficiency);
 	}
 }
 
@@ -163,13 +164,13 @@ void URocketEngine::FuelWaste(float Amount)
 void URocketEngine::AddShuntingEnginesForce(float DeltaTime)
 {
 	auto Force =
-	GetOwner()->GetActorUpVector() * DeltaTime * Coefficient * EngineProperties.ShuntinThrust * InputComponent->GetAxisValue("ShuntingUp");
+	GetOwner()->GetActorUpVector() * ThrustCoefficient * EngineProperties.ShuntinThrust * InputComponent->GetAxisValue("ShuntingUp");
 
 	Force +=
-	GetOwner()->GetActorRightVector() * DeltaTime * Coefficient * EngineProperties.ShuntinThrust * InputComponent->GetAxisValue("ShuntingRight");
+	GetOwner()->GetActorRightVector() * ThrustCoefficient * EngineProperties.ShuntinThrust * InputComponent->GetAxisValue("ShuntingRight");
 
 	OwnerRoot->AddForce(Force);
 
-	FuelWaste(Force.Size() / Coefficient * DeltaTime * EngineProperties.EngineThrustEfficiency);
+	FuelWaste(Force.Size() / FuelWasteCoefficient * DeltaTime * EngineProperties.EngineThrustEfficiency);
 }
 

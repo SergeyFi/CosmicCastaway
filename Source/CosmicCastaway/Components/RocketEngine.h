@@ -48,7 +48,9 @@ private:
 
 	bool bFullStop;
 
-	float Coefficient = 8000.0f;
+	float FuelWasteCoefficient = 8000.0f;
+
+	float ThrustCoefficient = 150.0f;
 
 	void GetOwnerRoot();
 
