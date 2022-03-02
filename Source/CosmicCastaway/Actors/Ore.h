@@ -30,6 +30,17 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Ore")
 	UStaticMeshComponent* OreMesh;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Ore")
+	float ScaleMin = 0.3f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Ore")
+	float ScaleMax = 0.6f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Ore")
+	float ZOffset = 30.0f;
+
 	UFUNCTION(BlueprintImplementableEvent)
 	void DestroyOre();
+
+	void RandomRangeScale();
 };

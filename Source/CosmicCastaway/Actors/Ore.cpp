@@ -39,5 +39,13 @@ void AOre::BeginPlay()
 {
 	Super::BeginPlay();
 
-	
+	RandomRangeScale();
+}
+
+void AOre::RandomRangeScale()
+{
+	auto Scale = FMath::RandRange(ScaleMin, ScaleMax);
+	SetActorScale3D({Scale, Scale, Scale});
+
+	AddActorLocalOffset({0.0f, 0.0f, ZOffset / Scale});
 }
