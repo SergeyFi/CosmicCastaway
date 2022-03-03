@@ -43,4 +43,10 @@ protected:
 	void DestroyOre();
 
 	void RandomRangeScale();
+
+private:
+
+	UMaterialInstanceDynamic* DynamicMaterial;
+
+	float InitialResValue;
 };

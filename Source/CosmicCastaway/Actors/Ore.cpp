@@ -30,6 +30,16 @@ FResourceValue AOre::MineResource(float Value)
 	}
 
 	Resource.Value -= Amount;
+
+	if (DynamicMaterial)
+	{
+		DynamicMaterial->SetScalarParameterValue("Dissolve",1.0f - Resource.Value / InitialResValue);
+	}
+	else
+	{
+		auto MeshComponent = FindComponentByClass<UStaticMeshComponent>();
+		DynamicMaterial = MeshComponent->CreateDynamicMaterialInstance(0, MeshComponent->GetMaterial(0));
+	}
 	
 	return {Resource.Resource, Amount};
 }
@@ -40,6 +50,8 @@ void AOre::BeginPlay()
 	Super::BeginPlay();
 
 	RandomRangeScale();
+
+	InitialResValue = Resource.Value;
 }
 
 void AOre::RandomRangeScale()
