@@ -14,15 +14,6 @@ float UEnergyCreditComponent::AddCredits(float Credits)
 {
 	CreditsCurrent += Credits;
 
-	if (CreditsCurrent > CreditsMax)
-	{
-		auto Diff = CreditsCurrent - CreditsMax;
-
-		CreditsCurrent = CreditsMax;
-
-		return Diff;
-	}
-
 	return 0.0f;
 }
 
