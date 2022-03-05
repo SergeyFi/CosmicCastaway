@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "Components/ShipElements/ShipElement.h"
-#include "Objects/ShipModules/MiningModule.h"
 #include "MiningElement.generated.h"
 
 /**
@@ -17,8 +16,4 @@ class COSMICCASTAWAY_API UMiningElement : public UShipElement
 
 public:
 	virtual void BeginPlay() override;
-
-protected:
-	UPROPERTY(EditAnywhere, Category = "Mining")
-	TSubclassOf<UMiningModule> MiningModule;
 };

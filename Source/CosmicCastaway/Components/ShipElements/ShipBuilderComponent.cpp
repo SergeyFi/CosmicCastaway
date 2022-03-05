@@ -14,41 +14,30 @@ void UShipBuilderComponent::Build()
 {
 	if (CurrentBuild.Num() == 0)
 	{
-		bool bFirstElement = true;
+		PrevElement = Cast<UStaticMeshComponent>(GetOwner()->GetRootComponent());
+		
 		for (const auto& ElementClass : ShipBuild)
 		{
 			if (ElementClass)
 			{
-				if (bFirstElement)
-				{
-					Cast<UStaticMeshComponent>(GetOwner()->GetRootComponent())->SetStaticMesh
-					(ElementClass->GetDefaultObject<UStaticMeshComponent>()->GetStaticMesh());
+				auto NewElement = NewObject<UStaticMeshComponent>(GetOwner(), ElementClass);
 
-					PrevElement = Cast<UStaticMeshComponent>(GetOwner()->GetRootComponent());
-					
-					bFirstElement = false;
-				}
-				else
+				if (NewElement)
 				{
-					auto NewElement = NewObject<UStaticMeshComponent>(GetOwner(), ElementClass);
-
-					if (NewElement)
-					{
-						NewElement->RegisterComponent();
-						NewElement->SetWorldLocation(PrevElement->GetSocketTransform(SocketConnectorName).GetLocation());
+					NewElement->RegisterComponent();
+					NewElement->SetWorldLocation(PrevElement->GetSocketTransform(SocketConnectorName).GetLocation());
 					
-						FAttachmentTransformRules Rules
-						(
-							EAttachmentRule::KeepWorld,
-							EAttachmentRule::KeepWorld,
-							EAttachmentRule::KeepRelative,
-							true
-						);
+					FAttachmentTransformRules Rules
+					(
+						EAttachmentRule::KeepWorld,
+						EAttachmentRule::KeepWorld,
+						EAttachmentRule::KeepRelative,
+						true
+					);
 						
-						NewElement->AttachToComponent(GetOwner()->GetRootComponent(), Rules);
-						NewElement->SetWorldLocation(PrevElement->GetSocketTransform(SocketConnectorName).GetLocation());
-						PrevElement = NewElement;
-					}
+					NewElement->AttachToComponent(GetOwner()->GetRootComponent(), Rules);
+					NewElement->SetWorldLocation(PrevElement->GetSocketTransform(SocketConnectorName).GetLocation());
+					PrevElement = NewElement;
 				}
 			}
 		}

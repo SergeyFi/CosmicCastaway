@@ -8,13 +8,19 @@ void UEngineElement::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if (EngineModule)
+	if (DataTable)
 	{
 		auto RocketEngine = GetOwner()->FindComponentByClass<URocketEngine>();
 
 		if (RocketEngine)
 		{
-			RocketEngine->SetEngineModule(EngineModule);
+			FString Message;
+			auto DataPtr = DataTable->FindRow<FEngineData>(DataID, Message);
+
+			if (DataPtr)
+			{
+				RocketEngine->SetEngineData(DataTable->FindRow<FEngineData>(DataID, Message));
+			}
 		}
 	}
 }

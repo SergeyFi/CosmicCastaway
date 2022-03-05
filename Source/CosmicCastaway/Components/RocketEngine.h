@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "ResourcesStorage.h"
 #include "Components/ActorComponent.h"
-#include "Objects/ShipModules/EngineShipModule.h"
+#include "Data/ElementsDataTables.h"
 #include "RocketEngine.generated.h"
 
 
@@ -26,9 +26,8 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Engine")
 	void StopEngine();
-
-	UFUNCTION(BlueprintCallable, Category = "Engine")
-	void SetEngineModule(TSubclassOf<UEngineShipModule> ShipModule);
+	
+	void SetEngineData(FEngineData* Data);
 
 	UFUNCTION(BlueprintPure, Category = "Engine")
 	const TArray<FResourceValue>& GetFuelType();
@@ -36,9 +35,6 @@ public:
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Engine")
-	TSubclassOf<UEngineShipModule> DefaultEngineModule;
 	
 private:
 	
@@ -70,7 +66,7 @@ private:
 
 	void AddShuntingEnginesForce(float DeltaTime);
 	
-	FEngineProperties EngineProperties;
+	FEngineData EngineData;
 
 	UResourcesStorage* ResStorage;
 };

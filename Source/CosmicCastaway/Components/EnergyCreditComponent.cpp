@@ -10,11 +10,9 @@ UEnergyCreditComponent::UEnergyCreditComponent()
 
 }
 
-float UEnergyCreditComponent::AddCredits(float Credits)
+void UEnergyCreditComponent::AddCredits(float Credits)
 {
 	CreditsCurrent += Credits;
-
-	return 0.0f;
 }
 
 float UEnergyCreditComponent::GetCredits()
@@ -42,7 +40,4 @@ void UEnergyCreditComponent::RemoveCredits(float Value)
 void UEnergyCreditComponent::BeginPlay()
 {
 	Super::BeginPlay();
-
-	// ...
-	
 }

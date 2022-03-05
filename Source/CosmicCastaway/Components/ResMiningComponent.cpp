@@ -23,8 +23,6 @@ void UResMiningComponent::BeginPlay()
 
 	DockComponent = GetOwner()->FindComponentByClass<UDock>();
 
-	InitNiagara();
-
 #if WITH_EDITOR
 	if (!DockComponent)
 	{
@@ -104,13 +102,6 @@ void UResMiningComponent::Mine()
 #endif
 }
 
-void UResMiningComponent::UpdateMining()
-{
-	MineInfo = MiningModule->GetDefaultObject<UMiningModule>()->GetMineInfo();
-	
-	PrimaryComponentTick.TickInterval = MineInfo.MineRate;
-}
-
 void UResMiningComponent::Mining(float DeltaTime)
 {
 	if (!DockComponent || !DockComponent->IsDock())
@@ -135,8 +126,8 @@ void UResMiningComponent::Mining(float DeltaTime)
 	(
 	GetOwner(),
 	GetComponentLocation(),
-	GetComponentLocation() + GetForwardVector() * MineInfo.MineDistance,
-	MineInfo.MineRadius,
+	GetComponentLocation() + GetForwardVector() * MiningData.MineDistance,
+	MiningData.MineRadius,
 	TraceType,
 	false,
 	{GetOwner()},
@@ -171,7 +162,7 @@ void UResMiningComponent::Mining(float DeltaTime)
 
 		if (OreNearest)
 		{
-			ResourcesStorage->AddResourceByValue(OreNearest->MineResource(MineInfo.MinePerSecond * DeltaTime));
+			ResourcesStorage->AddResourceByValue(OreNearest->MineResource(MiningData.MinePerSecond * DeltaTime));
 		}
 		else
 		{
@@ -183,13 +174,18 @@ void UResMiningComponent::Mining(float DeltaTime)
 
 void UResMiningComponent::InitNiagara()
 {
-	NiagaraComponent = NewObject<UNiagaraComponent>(GetOwner());
-	NiagaraComponent->RegisterComponent();
-	NiagaraComponent->SetWorldLocation(GetComponentLocation());
-	NiagaraComponent->AttachToComponent(this, FAttachmentTransformRules::SnapToTargetNotIncludingScale);
-	NiagaraComponent->SetAsset(NiagaraFX);
+	if (!NiagaraComponent)
+	{
+		NiagaraComponent = NewObject<UNiagaraComponent>(GetOwner());
+		NiagaraComponent->RegisterComponent();
+		NiagaraComponent->SetWorldLocation(GetComponentLocation());
+		NiagaraComponent->AttachToComponent(this, FAttachmentTransformRules::SnapToTargetNotIncludingScale);
+		NiagaraComponent->SetWorldScale3D({FXScale, FXScale, FXScale});
+	}
+
+	NiagaraComponent->SetAsset(MiningData.NiagaraFX);
 	NiagaraComponent->DeactivateImmediate();
-	NiagaraComponent->SetWorldScale3D({FXScale, FXScale, FXScale});
+	
 }
 
 void UResMiningComponent::StartNiagara()
@@ -211,16 +207,15 @@ void UResMiningComponent::TickComponent(float DeltaTime, ELevelTick TickType, FA
 	Mining(DeltaTime);
 }
 
-void UResMiningComponent::SetMiningModule(TSubclassOf<UMiningModule> Module)
-{
-	if (Module)
-	{
-		MiningModule = Module;
-	}
-}
-
 bool UResMiningComponent::IsMining()
 {
 	return bMining;
+}
+
+void UResMiningComponent::SetMiningData(FMiningData* Data)
+{
+	MiningData = *Data;
+	InitNiagara();
+	//PrimaryComponentTick.TickInterval = MiningData.MineRate;
 }
 

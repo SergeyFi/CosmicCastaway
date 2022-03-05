@@ -17,7 +17,7 @@ public:
 	UEnergyCreditComponent();
 
 	UFUNCTION(BlueprintCallable, Category = "Credits")
-	float AddCredits(float Credits);
+	void AddCredits(float Credits);
 
 	UFUNCTION(BlueprintPure, Category = "Credits")
 	float GetCredits();
@@ -31,10 +31,7 @@ public:
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
-    
-    UPROPERTY(EditDefaultsOnly, Category = "Credits")
-	float CreditsMax = 5000.0f;
-
+	
 	UPROPERTY(EditDefaultsOnly, Category = "Credits")
 	float CreditsCurrent;
 		

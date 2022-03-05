@@ -11,15 +11,6 @@
  * 
  */
 
-USTRUCT(BlueprintType)
-struct FSolarPanelInfo
-{
-	GENERATED_BODY()
-
-	UPROPERTY(EditDefaultsOnly, Category = "Mining")
-	float SolarEnergyPerSecond = 1.0f;
-};
-
 UCLASS()
 class COSMICCASTAWAY_API USolarPanelElement : public UShipElement
 {
@@ -33,12 +24,9 @@ public:
 
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-protected:
-
-	UPROPERTY(EditDefaultsOnly, Category = "SolarInfo")
-	FSolarPanelInfo SolarPanelInfo;
-
 private:
 
 	UEnergyCreditComponent* EnergyCreditComponent;
+
+	float EnergyPerSeconds;
 };

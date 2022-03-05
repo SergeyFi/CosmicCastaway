@@ -6,9 +6,7 @@
 #include "ResourcesStorage.h"
 #include "Components/Dock.h"
 #include "Components/SceneComponent.h"
-#include "Objects/ShipModules/MiningModule.h"
-#include "NiagaraSystem.h"
-#include "NiagaraComponent.h"
+#include "Data/ElementsDataTables.h"
 #include "ResMiningComponent.generated.h"
 
 
@@ -24,11 +22,10 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-	UFUNCTION(BlueprintCallable, Category = "Mining")
-	void SetMiningModule(TSubclassOf<UMiningModule> Module);
-
 	UFUNCTION(BlueprintPure, Category = "Mining")
 	bool IsMining();
+
+	void SetMiningData(FMiningData* Data);
 
 protected:
 	// Called when the game starts
@@ -37,20 +34,16 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Mining")
 	TEnumAsByte<ETraceTypeQuery> TraceType;
 
-	UPROPERTY(EditAnywhere, Category = "Mining")
-	TSubclassOf<UMiningModule> MiningModule;
-
 	UPROPERTY(EditDefaultsOnly, Category = "Mining")
 	bool bDebug;
-
-	UPROPERTY(EditAnywhere, Category = "Mining|FX")
-	UNiagaraSystem* NiagaraFX;
 
 	UPROPERTY(EditAnywhere, Category = "Mining|FX")
 	float FXScale = 3.0f;
 
 	UFUNCTION()
 	void MineSwitch();
+
+	FMiningData MiningData;
 
 private:
 
@@ -61,10 +54,6 @@ private:
 	void MineStop();
 
 	void Mine();
-
-	void UpdateMining();
-
-	FMineInfo MineInfo;
 
 	void Mining(float DeltaTime);
 	

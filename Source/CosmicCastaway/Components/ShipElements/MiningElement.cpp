@@ -9,13 +9,12 @@ void UMiningElement::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if (MiningModule)
-	{
-		auto MiningComponent = GetOwner()->FindComponentByClass<UResMiningComponent>();
+	auto MiningComponent = GetOwner()->FindComponentByClass<UResMiningComponent>();
 
-		if (MiningComponent)
-		{
-			MiningComponent->SetMiningModule(MiningModule);
-		}
+	if (MiningComponent)
+	{
+		FString Message;
+		
+		MiningComponent->SetMiningData(DataTable->FindRow<FMiningData>(DataID, Message));
 	}
 }
