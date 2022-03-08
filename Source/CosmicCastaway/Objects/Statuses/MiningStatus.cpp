@@ -11,8 +11,16 @@ void UMiningStatus::UpdateStatus()
 	{
 		if (ResMining->IsMining())
 		{
-			Status.Status = MiningStatusMessage;
-			Status.StatusVisibility = EStatusVisibility::Display;
+			auto MiningOre = ResMining->GetCurrentMiningOre();
+			if (MiningOre)
+			{
+				 auto Message =
+				FText::Join(FText::FromString(""), MiningStatusMessage, FText::FromString(" "),
+				FText::FromString(FString::FromInt(MiningOre->GetResourcesCountInPercent() * 100.0f)), FText::FromString("%"));
+				
+				Status.Status = Message;
+				Status.StatusVisibility = EStatusVisibility::Display;
+			}
 		}
 		else
 		{

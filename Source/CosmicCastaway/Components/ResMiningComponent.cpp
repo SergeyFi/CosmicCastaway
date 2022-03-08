@@ -163,10 +163,12 @@ void UResMiningComponent::Mining(float DeltaTime)
 		if (OreNearest)
 		{
 			ResourcesStorage->AddResourceByValue(OreNearest->MineResource(MiningData.MinePerSecond * DeltaTime));
+			OreCurrent = OreNearest;
 		}
 		else
 		{
 			MineStop();
+			OreCurrent = nullptr;
 		}
 	}
 	
@@ -216,6 +218,10 @@ void UResMiningComponent::SetMiningData(FMiningData* Data)
 {
 	MiningData = *Data;
 	InitNiagara();
-	//PrimaryComponentTick.TickInterval = MiningData.MineRate;
+}
+
+AOre* UResMiningComponent::GetCurrentMiningOre()
+{
+	return OreCurrent;
 }
 

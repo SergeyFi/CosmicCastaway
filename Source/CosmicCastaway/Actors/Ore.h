@@ -20,6 +20,9 @@ public:
 
 	FResourceValue MineResource(float Value);
 
+	UFUNCTION(BlueprintPure, Category = "Ore")
+	float GetResourcesCountInPercent();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

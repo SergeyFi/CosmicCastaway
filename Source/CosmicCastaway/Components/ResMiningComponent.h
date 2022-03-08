@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "ResourcesStorage.h"
+#include "Actors/Ore.h"
 #include "Components/Dock.h"
 #include "Components/SceneComponent.h"
 #include "Data/ElementsDataTables.h"
@@ -26,6 +27,9 @@ public:
 	bool IsMining();
 
 	void SetMiningData(FMiningData* Data);
+
+	UFUNCTION(BlueprintPure, Category = "Mining")
+	AOre* GetCurrentMiningOre();
 
 protected:
 	// Called when the game starts
@@ -69,5 +73,7 @@ private:
 	void StartNiagara();
 
 	void StopNiagara();
+
+	AOre* OreCurrent;
 	
 };

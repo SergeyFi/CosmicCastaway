@@ -44,6 +44,11 @@ FResourceValue AOre::MineResource(float Value)
 	return {Resource.Resource, Amount};
 }
 
+float AOre::GetResourcesCountInPercent()
+{
+	return Resource.Value / InitialResValue;
+}
+
 // Called when the game starts or when spawned
 void AOre::BeginPlay()
 {
