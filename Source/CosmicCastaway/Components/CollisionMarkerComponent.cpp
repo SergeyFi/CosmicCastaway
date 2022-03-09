@@ -81,7 +81,7 @@ void UCollisionMarkerComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 			CollisionLength,
 			0.0f,
 			CollisionDetector->GetDetectorLength(),
-			0.05f, 2.0f);
+			0.05f, 4.0f);
 
 		SetWorldScale3D({Scale, Scale, Scale});
 	}
