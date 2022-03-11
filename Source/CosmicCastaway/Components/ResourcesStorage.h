@@ -47,6 +47,8 @@ protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY(EditDefaultsOnly)
+	TArray<FResourceValue> ResourcesDefault;
+	
 	TMap<TSubclassOf<UResource>, float> Resources;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Resources")
@@ -66,4 +68,6 @@ protected:
 private:
 	
 	UEnergyCreditComponent* EnergyCreditComponent;
+
+	void AddDefaultResources();
 };

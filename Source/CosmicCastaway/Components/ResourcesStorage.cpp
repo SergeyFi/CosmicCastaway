@@ -144,10 +144,20 @@ void UResourcesStorage::BeginPlay()
 {
 	Super::BeginPlay();
 
+	AddDefaultResources();
+
 	EnergyCreditComponent = GetOwner()->FindComponentByClass<UEnergyCreditComponent>();
 }
 
 float UResourcesStorage::GetResourceMass(TSubclassOf<UResource> ResClass, float Value)
 {
 	return (ResClass->GetDefaultObject<UResource>()->GetMolarMass() / MassCoefficient) * Value;
+}
+
+void UResourcesStorage::AddDefaultResources()
+{
+	for (const auto& Res : ResourcesDefault)
+	{
+		AddResourceByValue(Res);
+	}
 }
