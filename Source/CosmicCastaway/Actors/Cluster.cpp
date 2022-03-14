@@ -19,6 +19,21 @@ void ACluster::BeginPlay()
 	GenerateLayers();
 }
 
+float ACluster::GetClusterRadius()
+{
+	auto MaxRadius = 0.0f;
+
+	for (auto& Data : ClustersData)
+	{
+		if (Data.Radius > MaxRadius)
+		{
+			MaxRadius = Data.Radius;
+		}
+	}
+
+	return MaxRadius;
+}
+
 void ACluster::GenerateLayers()
 {
 	for (auto& Data : ClustersData)
