@@ -19,8 +19,6 @@ URelativeOptimizerComponent::URelativeOptimizerComponent()
 void URelativeOptimizerComponent::BeginPlay()
 {
 	Super::BeginPlay();
-
-	UGameplayStatics::GetAllActorsWithInterface(this, USleepInterface::StaticClass(), Sleepers);
 }
 
 
@@ -28,6 +26,8 @@ void URelativeOptimizerComponent::BeginPlay()
 void URelativeOptimizerComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+	UGameplayStatics::GetAllActorsWithInterface(this, USleepInterface::StaticClass(), Sleepers);
 
 	for (auto Actor : Sleepers)
 	{
