@@ -23,6 +23,19 @@ void UGalaxyComponent::BeginPlay()
 	InitialLevel.LoadSynchronous();
 	
 	NewLevel({0.0f, 0.0f, 0.0f}, InitialLevel);
+	NewLevel({1.0f, 0.0f, 0.0f}, InitialLevel);
+
+	if (Chance())
+	{
+		NewLevel({1.0f, 1.0f, 0.0f}, InitialLevel);
+	}
+
+	if (Chance())
+	{
+		NewLevel({1.0f, -1.0f, 0.0f}, InitialLevel);
+	}
+
+	InitialOffset = Bound * 2.0f;
 	
 }
 
@@ -64,7 +77,7 @@ void UGalaxyComponent::NewLevel(FVector Direction, TSoftObjectPtr<UWorld>& Level
 		
 		FVector Location;
 		Location.X = WorldOffset.X;
-		Location.X += (Bound * 2.0f) * Direction.X;
+		Location.X += (Bound * 2.0f) * Direction.X + InitialOffset;
 		Location.Y = WorldOffset.Y;
 		Location.Y += (Bound * 2.0f) * Direction.Y;
 		
@@ -84,7 +97,7 @@ bool UGalaxyComponent::Chance()
 		return true;
 	}
 
-	return false;
+	return true;
 }
 
 // Called every frame

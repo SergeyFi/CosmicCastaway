@@ -38,10 +38,10 @@ private:
 
 	UPROPERTY()
 	class ULevelStreamingDynamic* CurrentLevel;
-
-	bool LevelSpawned;
 	
 	void NewLevel(FVector Direction, TSoftObjectPtr<UWorld>& Level);
 
 	bool Chance();
+
+	float InitialOffset;
 };
