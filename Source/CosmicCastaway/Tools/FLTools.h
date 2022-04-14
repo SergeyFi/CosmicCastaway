@@ -17,4 +17,7 @@ class COSMICCASTAWAY_API UFLTools : public UBlueprintFunctionLibrary
 public:
 	UFUNCTION(BlueprintPure, Category = "Tools")
 	static FVector GetRandomSpherePosition();
+	
+	UFUNCTION(BlueprintPure, Category = "Tools")
+	static void SortActorsByDistance(TArray<AActor*> InArray, TArray<AActor*>& OutArray);
 };

@@ -43,6 +43,14 @@ void UUIManagerComponent::SetVisibilityByType(TSubclassOf<UWidgetType> Type, ESl
 	}
 }
 
+void UUIManagerComponent::HideAll()
+{
+	for (const auto& Widget : Widgets)
+	{
+		Widget->SetVisibility(ESlateVisibility::Hidden);
+	}
+}
+
 
 // Called when the game starts
 void UUIManagerComponent::BeginPlay()

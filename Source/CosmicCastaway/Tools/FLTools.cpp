@@ -18,3 +18,16 @@ FVector UFLTools::GetRandomSpherePosition()
 	
 	return {X1 * C, X2 * C, X3 * C};
 }
+
+void UFLTools::SortActorsByDistance(TArray<AActor*> InArray, TArray<AActor*>& OutArray)
+{
+	InArray.Sort([](const AActor& A, const AActor& B)
+	{
+		auto DistanceA = A.GetActorLocation().X;
+		auto DistanceB = B.GetActorLocation().X;
+
+		return DistanceA < DistanceB;
+	});
+
+	OutArray = InArray;
+}

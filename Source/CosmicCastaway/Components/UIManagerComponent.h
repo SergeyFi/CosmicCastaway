@@ -27,6 +27,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "UI")
 	void SetVisibilityByType(TSubclassOf<UWidgetType> Type, ESlateVisibility Visibility);
 
+	UFUNCTION(BlueprintCallable, Category = "UI")
+	void HideAll();
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;

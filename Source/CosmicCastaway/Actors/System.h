@@ -8,7 +8,7 @@
 #include "System.generated.h"
 
 UCLASS()
-class COSMICCASTAWAY_API ASystem : public AActor
+class COSMICCASTAWAY_API ASystem : public APointInterest
 {
 	GENERATED_BODY()
 	

@@ -17,19 +17,9 @@ class COSMICCASTAWAY_API UTargetWidget : public UUserWidget
 public:
 
 	void SetOwner(AActor* Owner);
+	
 protected:
 
 	UPROPERTY(BlueprintReadOnly,  Category = "Target")
 	AActor* WidgetOwner;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly,  Category = "Target")
-	FName TargetName;
-
-	UFUNCTION(BlueprintPure, Category = "Target")
-	FString GetFullName();
-
-	TArray<FString> Prefixes
-	{
-		{"A"}, {"B"}, {"C"}, {"D"}, {"E"}, {"F"}, {"G"}
-	};
 };

@@ -5,10 +5,11 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Objects/ClusterLayers/ClusterLayer.h"
+#include "PointInterest.h"
 #include "Cluster.generated.h"
 
 UCLASS(Blueprintable)
-class COSMICCASTAWAY_API ACluster : public AActor
+class COSMICCASTAWAY_API ACluster : public APointInterest
 {
 	GENERATED_BODY()
 	
