@@ -2,6 +2,8 @@
 
 
 #include "Tools/FLTools.h"
+#include "Kismet/GameplayStatics.h"
+#include "Managers/GameStateCosmic.h"
 
 FVector UFLTools::GetRandomSpherePosition()
 {
@@ -30,4 +32,9 @@ void UFLTools::SortActorsByDistance(TArray<AActor*> InArray, TArray<AActor*>& Ou
 	});
 
 	OutArray = InArray;
+}
+
+AGameStateCosmic* UFLTools::GetGameStateCosmic(UObject* WorldContext)
+{
+	return Cast<AGameStateCosmic>(UGameplayStatics::GetGameState(WorldContext));
 }

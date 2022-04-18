@@ -20,4 +20,7 @@ public:
 	
 	UFUNCTION(BlueprintPure, Category = "Tools")
 	static void SortActorsByDistance(TArray<AActor*> InArray, TArray<AActor*>& OutArray);
+
+	UFUNCTION(BlueprintPure, meta = (WorldContext = "WorldContext"), Category = "Tools")
+	static class AGameStateCosmic* GetGameStateCosmic(UObject* WorldContext);
 };
