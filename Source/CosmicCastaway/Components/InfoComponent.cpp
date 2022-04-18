@@ -24,7 +24,8 @@ void UInfoComponent::BeginPlay()
 
 	Info.FullName.Append(Info.FirstName.ToString());
 	Info.FullName.Append("-");
-	Info.FullName.Append(FString::FromInt(FMath::RandRange(1, 99)));
-	Info.FullName.Append(Prefixes[FMath::RandRange(0, Prefixes.Num() - 1)]);
+	Info.Prefix.Append(FString::FromInt(FMath::RandRange(1, 99)));
+	Info.Prefix.Append(Prefixes[FMath::RandRange(0, Prefixes.Num() - 1)]);
+	Info.FullName.Append(Info.Prefix);
 
 }
