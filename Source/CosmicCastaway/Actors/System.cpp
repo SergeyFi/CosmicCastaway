@@ -2,6 +2,8 @@
 
 
 #include "Actors/System.h"
+#include "Kismet/GameplayStatics.h"
+#include "Managers/GameStateCosmic.h"
 #include "Tools/FLTools.h"
 
 // Sets default values
@@ -18,6 +20,25 @@ void ASystem::BeginPlay()
 	Super::BeginPlay();
 
 	SpawnClusters();
+
+	auto GameState = Cast<AGameStateCosmic>( UGameplayStatics::GetGameState(this));
+
+	if (GameState)
+	{
+		GameState->AddSystem(this);
+	}
+}
+
+void ASystem::BeginDestroy()
+{
+	Super::BeginDestroy();
+
+	auto GameState = Cast<AGameStateCosmic>( UGameplayStatics::GetGameState(this));
+
+	if (GameState)
+	{
+		GameState->RemoveSystem(this);
+	}
 }
 
 void ASystem::SpawnCluster(TSubclassOf<ACluster> ClasterClass, FVector Location)
