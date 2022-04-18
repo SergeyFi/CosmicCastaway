@@ -25,8 +25,8 @@ void UFLTools::SortActorsByDistance(TArray<AActor*> InArray, TArray<AActor*>& Ou
 {
 	InArray.Sort([](const AActor& A, const AActor& B)
 	{
-		auto DistanceA = A.GetActorLocation().X;
-		auto DistanceB = B.GetActorLocation().X;
+		auto DistanceA = A.GetActorLocation().Size();
+		auto DistanceB = B.GetActorLocation().Size();
 
 		return DistanceA < DistanceB;
 	});
