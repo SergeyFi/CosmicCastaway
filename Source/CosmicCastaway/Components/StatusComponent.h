@@ -21,10 +21,10 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	UFUNCTION(BlueprintPure, Category = "Statuses")
-	TArray<UStatusGetter*>& GetStatusGetters();
+	FStatusOutput GetStatus(TSubclassOf<UStatusGetter> StatusClass);
 
 	UFUNCTION(BlueprintPure, Category = "Statuses")
-	TArray<TSubclassOf<UStatusGetter>> GetStatusGetterClasses();
+	TArray<TSubclassOf<UStatusGetter>> GetVisibleStatusClasses();
 
 protected:
 	// Called when the game starts
@@ -33,14 +33,15 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Statuses")
 	TArray<TSubclassOf<UStatusGetter>> StatusGetterClasses;
 
-	UPROPERTY()
-	TArray<UStatusGetter*> StatusGetters;
-
 private:
+
+	UPROPERTY()
+	TMap<TSubclassOf<UStatusGetter>, UStatusGetter*> StatusGetters;
+
+	TArray<TSubclassOf<UStatusGetter>> StatusGetterClassesVisible;
 
 	void UpdateStatuses();
 
 	void InitStatuses();
-
-		
+	
 };

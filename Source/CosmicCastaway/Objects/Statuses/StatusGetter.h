@@ -10,13 +10,6 @@
  * 
  */
 
-UENUM(Blueprintable)
-enum class EStatusVisibility: uint8
-{
-	Hide		UMETA(DisplayName = "Hide"),
-	Display     UMETA(DisplayName = "Display")
-};
-
 USTRUCT(Blueprintable)
 struct FStatusOutput
 {
@@ -26,7 +19,10 @@ struct FStatusOutput
 	FText Status;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Status")
-	EStatusVisibility StatusVisibility;
+	bool bActive;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Status")
+	bool bVisible;
 };
 
 UCLASS(Blueprintable)
@@ -43,5 +39,6 @@ public:
 
 protected:
 
+	UPROPERTY(EditDefaultsOnly, Category = "Status")
 	FStatusOutput Status;
 };

@@ -6,11 +6,7 @@
 // Sets default values for this component's properties
 UStatusComponent::UStatusComponent()
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-
-	// ...
 }
 
 
@@ -26,15 +22,21 @@ void UStatusComponent::UpdateStatuses()
 {
 	for (const auto& StatusGetter : StatusGetters)
 	{
-		StatusGetter->UpdateStatus();
+		StatusGetter.Value->UpdateStatus();
 	}
+	
 }
 
 void UStatusComponent::InitStatuses()
 {
 	for (const auto& StatusGetterClass : StatusGetterClasses)
 	{
-		StatusGetters.Add(NewObject<UStatusGetter>(GetOwner(), StatusGetterClass));
+		StatusGetters.Add(StatusGetterClass, NewObject<UStatusGetter>(GetOwner(), StatusGetterClass));
+
+		if (StatusGetterClass->GetDefaultObject<UStatusGetter>()->GetStatus().bVisible)
+		{
+			StatusGetterClassesVisible.Add(StatusGetterClass);
+		}
 	}
 }
 
@@ -47,13 +49,19 @@ void UStatusComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 	UpdateStatuses();
 }
 
-TArray<UStatusGetter*>& UStatusComponent::GetStatusGetters()
+FStatusOutput UStatusComponent::GetStatus(TSubclassOf<UStatusGetter> StatusClass)
 {
-	return StatusGetters;
+	auto StatusGetter = StatusGetters.Find(StatusClass);
+
+	if (StatusGetter)
+	{
+		return (*StatusGetter)->GetStatus();
+	}
+
+	return {};
 }
 
-TArray<TSubclassOf<UStatusGetter>> UStatusComponent::GetStatusGetterClasses()
+TArray<TSubclassOf<UStatusGetter>> UStatusComponent::GetVisibleStatusClasses()
 {
-	return StatusGetterClasses;
+	return StatusGetterClassesVisible;
 }
-

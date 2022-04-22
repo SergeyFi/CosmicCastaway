@@ -19,12 +19,12 @@ void UMiningStatus::UpdateStatus()
 				FText::FromString(FString::FromInt(MiningOre->GetResourcesCountInPercent() * 100.0f)), FText::FromString("%"));
 				
 				Status.Status = Message;
-				Status.StatusVisibility = EStatusVisibility::Display;
+				Status.bActive = true;
 			}
 		}
 		else
 		{
-			Status.StatusVisibility = EStatusVisibility::Hide;
+			Status.bActive = false;
 		}
 	}
 	else

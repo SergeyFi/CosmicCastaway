@@ -12,11 +12,11 @@ void UDockStatus::UpdateStatus()
 		if (DockComponent->IsDock())
 		{
 			Status.Status = DockStatusMessage;
-			Status.StatusVisibility = EStatusVisibility::Display;
+			Status.bActive = true;
 		}
 		else
 		{
-			Status.StatusVisibility = EStatusVisibility::Hide;
+			Status.bActive = false;
 		}
 	}
 	else
