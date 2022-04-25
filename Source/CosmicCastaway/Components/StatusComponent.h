@@ -4,9 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "Objects/Statuses/StatusGetter.h"
+#include "Objects/Statuses/Status.h"
 #include "StatusComponent.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FStatusDelegate);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class COSMICCASTAWAY_API UStatusComponent : public UActorComponent
@@ -17,31 +18,32 @@ public:
 	// Sets default values for this component's properties
 	UStatusComponent();
 
-	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	UFUNCTION(BlueprintCallable, Category = "Statuses")
+	void AddStatus(TSubclassOf<UStatus> Status);
+
+	UFUNCTION(BlueprintCallable, Category = "Statuses")
+	void RemoveStatus(TSubclassOf<UStatus> Status);
+
+	UFUNCTION(BlueprintCallable, Category = "Statuses")
+	void UpdateStatus(TSubclassOf<UStatus> Status, FText StatusText);
 
 	UFUNCTION(BlueprintPure, Category = "Statuses")
-	FStatusOutput GetStatus(TSubclassOf<UStatusGetter> StatusClass);
+	FText GetStatusText(TSubclassOf<UStatus> Status);
 
 	UFUNCTION(BlueprintPure, Category = "Statuses")
-	TArray<TSubclassOf<UStatusGetter>> GetVisibleStatusClasses();
+	bool StatusIsActive(TSubclassOf<UStatus> Status);
+
+	UFUNCTION(BlueprintPure, Category = "Statuses")
+	void GetPublicStatuses(TArray<TSubclassOf<UStatus>>& PublicStatuses);
+
+	UPROPERTY(BlueprintAssignable, Category = "Statuses")
+	FStatusDelegate OnUpdated;
 
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Statuses")
-	TArray<TSubclassOf<UStatusGetter>> StatusGetterClasses;
-
 private:
 
-	UPROPERTY()
-	TMap<TSubclassOf<UStatusGetter>, UStatusGetter*> StatusGetters;
-
-	TArray<TSubclassOf<UStatusGetter>> StatusGetterClassesVisible;
-
-	void UpdateStatuses();
-
-	void InitStatuses();
-	
+	TSet<TSubclassOf<UStatus>> Statuses;
 };

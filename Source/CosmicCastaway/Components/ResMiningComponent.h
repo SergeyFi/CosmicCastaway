@@ -41,6 +41,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Mining")
 	bool bDebug;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Mining")
+	FText MiningStatusName = FText::FromString("Mining");
+
 	UPROPERTY(EditAnywhere, Category = "Mining|FX")
 	float FXScale = 3.0f;
 
@@ -74,6 +77,10 @@ private:
 
 	void StopNiagara();
 
+	void UpdateStatus();
+
 	AOre* OreCurrent;
+
+	class UStatusComponent* StatusComp;
 	
 };

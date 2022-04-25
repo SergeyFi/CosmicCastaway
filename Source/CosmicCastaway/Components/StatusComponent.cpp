@@ -14,54 +14,44 @@ UStatusComponent::UStatusComponent()
 void UStatusComponent::BeginPlay()
 {
 	Super::BeginPlay();
-
-	InitStatuses();
 }
 
-void UStatusComponent::UpdateStatuses()
+void UStatusComponent::AddStatus(TSubclassOf<UStatus> Status)
 {
-	for (const auto& StatusGetter : StatusGetters)
-	{
-		StatusGetter.Value->UpdateStatus();
-	}
-	
+	Statuses.Add(Status);
+
+	OnUpdated.Broadcast();
 }
 
-void UStatusComponent::InitStatuses()
+void UStatusComponent::RemoveStatus(TSubclassOf<UStatus> Status)
 {
-	for (const auto& StatusGetterClass : StatusGetterClasses)
-	{
-		StatusGetters.Add(StatusGetterClass, NewObject<UStatusGetter>(GetOwner(), StatusGetterClass));
+	Statuses.Remove(Status);
 
-		if (StatusGetterClass->GetDefaultObject<UStatusGetter>()->GetStatus().bVisible)
+	OnUpdated.Broadcast();
+}
+
+void UStatusComponent::UpdateStatus(TSubclassOf<UStatus> Status, FText StatusText)
+{
+	Status->GetDefaultObject<UStatus>()->Status = StatusText;
+}
+
+FText UStatusComponent::GetStatusText(TSubclassOf<UStatus> Status)
+{
+	return Status->GetDefaultObject<UStatus>()->Status;
+}
+
+bool UStatusComponent::StatusIsActive(TSubclassOf<UStatus> Status)
+{
+	return Statuses.Contains(Status);
+}
+
+ void UStatusComponent::GetPublicStatuses(TArray<TSubclassOf<UStatus>>& PublicStatuses)
+{
+	for (auto& Status : Statuses)
+	{
+		if (!Status->GetDefaultObject<UStatus>()->bInternal)
 		{
-			StatusGetterClassesVisible.Add(StatusGetterClass);
+			PublicStatuses.Add(Status);
 		}
 	}
-}
-
-
-// Called every frame
-void UStatusComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	UpdateStatuses();
-}
-
-FStatusOutput UStatusComponent::GetStatus(TSubclassOf<UStatusGetter> StatusClass)
-{
-	auto StatusGetter = StatusGetters.Find(StatusClass);
-
-	if (StatusGetter)
-	{
-		return (*StatusGetter)->GetStatus();
-	}
-
-	return {};
-}
-
-TArray<TSubclassOf<UStatusGetter>> UStatusComponent::GetVisibleStatusClasses()
-{
-	return StatusGetterClassesVisible;
 }

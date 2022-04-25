@@ -2,8 +2,9 @@
 
 
 #include "Components/Dock.h"
-
 #include "Interfaces/DockInterface.h"
+#include "StatusComponent.h"
+#include "Objects/Statuses/StatusDock.h"
 #include "Kismet/KismetSystemLibrary.h"
 
 // Sets default values for this component's properties
@@ -20,6 +21,8 @@ void UDock::BeginPlay()
 {
 	Super::BeginPlay();
 
+	FindStatusComponent();
+
 	BindToInput();
 
 	FindOwnerPhysxComponent();
@@ -27,6 +30,11 @@ void UDock::BeginPlay()
 	FindEngine();
 
 	FindOrientationComp();
+}
+
+void UDock::FindStatusComponent()
+{
+	StatusComp = GetOwner()->FindComponentByClass<UStatusComponent>();
 }
 
 void UDock::Dock()
@@ -39,6 +47,7 @@ void UDock::Dock()
 		RocketEngine->StopEngine();
 		PhysxComponent->SetSimulatePhysics(false);
 		OrientationComp->BlockOrientation();
+		StatusComp->AddStatus(UStatusDock::StaticClass());
 		
 		GetOwner()->AttachToActor
 		(DockActor,
@@ -71,6 +80,7 @@ void UDock::UnDock()
 	PhysxComponent->SetSimulatePhysics(true);
 	RocketEngine->StartEngine();
 	OrientationComp->UnBlockOrientation();
+	StatusComp->RemoveStatus(UStatusDock::StaticClass());
 	bDock = false;
 }
 

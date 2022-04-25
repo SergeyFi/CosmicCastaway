@@ -3,7 +3,10 @@
 
 #include "Components/ResMiningComponent.h"
 #include "Kismet/KismetSystemLibrary.h"
+#include "StatusComponent.h"
 #include "Actors/Ore.h"
+#include "Objects/Statuses/StatusMining.h"
+#include "Objects/Statuses/StatusBusy.h"
 
 // Sets default values for this component's properties
 UResMiningComponent::UResMiningComponent()
@@ -20,6 +23,8 @@ void UResMiningComponent::BeginPlay()
 	Super::BeginPlay();
 	
 	SetComponentTickEnabled(false);
+
+	StatusComp = GetOwner()->FindComponentByClass<UStatusComponent>();
 
 	DockComponent = GetOwner()->FindComponentByClass<UDock>();
 
@@ -74,6 +79,8 @@ void UResMiningComponent::MineSwitch()
 void UResMiningComponent::MineStop()
 {
 	bMining = false;
+	StatusComp->RemoveStatus(UStatusMining::StaticClass());
+	StatusComp->RemoveStatus(UStatusBusy::StaticClass());
 	SetComponentTickEnabled(false);
 	DockComponent->UnDock();
 
@@ -90,6 +97,8 @@ void UResMiningComponent::MineStop()
 void UResMiningComponent::Mine()
 {
 	bMining = true;
+	StatusComp->AddStatus(UStatusMining::StaticClass());
+	StatusComp->AddStatus(UStatusBusy::StaticClass());
 	SetComponentTickEnabled(true);
 
 	StartNiagara();
@@ -200,6 +209,20 @@ void UResMiningComponent::StopNiagara()
 	NiagaraComponent->Deactivate();
 }
 
+void UResMiningComponent::UpdateStatus()
+{
+	auto MiningOre = GetCurrentMiningOre();
+	
+	if (IsMining() && MiningOre)
+	{
+		auto Message =
+	   FText::Join(FText::FromString(""), MiningStatusName, FText::FromString(" "),
+	   FText::FromString(FString::FromInt(MiningOre->GetResourcesCountInPercent() * 100.0f)), FText::FromString("%"));
+				
+		StatusComp->UpdateStatus(UStatusMining::StaticClass(), Message);
+	}
+}
+
 
 // Called every frame
 void UResMiningComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
@@ -207,6 +230,8 @@ void UResMiningComponent::TickComponent(float DeltaTime, ELevelTick TickType, FA
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	Mining(DeltaTime);
+
+	UpdateStatus();
 }
 
 bool UResMiningComponent::IsMining()

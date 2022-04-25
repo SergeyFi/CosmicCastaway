@@ -41,6 +41,8 @@ protected:
 
 private:
 
+	void FindStatusComponent();
+
 	void Dock();
 
 	void DockSwitching();
@@ -70,4 +72,6 @@ private:
 	URocketEngine* RocketEngine;
 
 	UShipOrientationComponent* OrientationComp;
+
+	class UStatusComponent* StatusComp;
 };
