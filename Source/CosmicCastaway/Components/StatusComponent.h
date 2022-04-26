@@ -36,6 +36,9 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Statuses")
 	void GetPublicStatuses(TArray<TSubclassOf<UStatus>>& PublicStatuses);
 
+	UFUNCTION(BlueprintPure, Category = "Statuses")
+	void GetStatuses(TArray<TSubclassOf<UStatus>>& AllStatuses);
+
 	UPROPERTY(BlueprintAssignable, Category = "Statuses")
 	FStatusDelegate OnUpdated;
 

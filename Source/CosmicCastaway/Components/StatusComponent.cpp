@@ -55,3 +55,8 @@ bool UStatusComponent::StatusIsActive(TSubclassOf<UStatus> Status)
 		}
 	}
 }
+
+void UStatusComponent::GetStatuses(TArray<TSubclassOf<UStatus>>& AllStatuses)
+{
+	AllStatuses = Statuses.Array();
+}
