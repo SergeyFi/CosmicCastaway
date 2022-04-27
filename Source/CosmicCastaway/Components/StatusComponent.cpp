@@ -25,7 +25,7 @@ void UStatusComponent::AddStatus(TSubclassOf<UStatus> Status)
 
 void UStatusComponent::RemoveStatus(TSubclassOf<UStatus> Status)
 {
-	Statuses.Remove(Status);
+	Statuses.RemoveSingle(Status);
 
 	OnUpdated.Broadcast();
 }
@@ -58,5 +58,5 @@ bool UStatusComponent::StatusIsActive(TSubclassOf<UStatus> Status)
 
 void UStatusComponent::GetStatuses(TArray<TSubclassOf<UStatus>>& AllStatuses)
 {
-	AllStatuses = Statuses.Array();
+	AllStatuses = Statuses;
 }

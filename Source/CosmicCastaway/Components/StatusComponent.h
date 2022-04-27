@@ -48,5 +48,5 @@ protected:
 
 private:
 
-	TSet<TSubclassOf<UStatus>> Statuses;
+	TArray<TSubclassOf<UStatus>> Statuses;
 };
