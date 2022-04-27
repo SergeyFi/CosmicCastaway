@@ -2,6 +2,7 @@
 
 
 #include "Components/WarpComponent.h"
+#include "Kismet/KismetMathLibrary.h"
 
 // Sets default values for this component's properties
 UWarpComponent::UWarpComponent()
@@ -16,7 +17,8 @@ void UWarpComponent::Warp(AActor* NewTarget)
 		bWarping = true;
 
 		Target = NewTarget;
-		WarpTargetDirection = Target->GetActorLocation();
+		WarpTargetDirection = UKismetMathLibrary::FindLookAtRotation
+		(GetOwner()->GetActorLocation(), Target->GetActorLocation()).Vector();
 		WarpTargetDirection.Normalize();
 		
 		SetComponentTickEnabled(true);
