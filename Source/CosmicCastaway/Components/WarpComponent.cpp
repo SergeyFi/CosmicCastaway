@@ -12,7 +12,7 @@ UWarpComponent::UWarpComponent()
 
 void UWarpComponent::Warp(AActor* NewTarget)
 {
-	if (!bWarping)
+	if (!bWarping && NewTarget)
 	{
 		bWarping = true;
 
@@ -35,7 +35,10 @@ void UWarpComponent::StopWarping()
 	if (bWarping)
 	{
 		bWarping = false;
+		
 		SetComponentTickEnabled(false);
+
+		Target = nullptr;
 	}
 }
 
