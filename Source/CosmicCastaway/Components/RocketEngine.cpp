@@ -2,6 +2,8 @@
 
 
 #include "Components/RocketEngine.h"
+#include "StatusComponent.h"
+#include "Objects/Statuses/StatusBusy.h"
 
 // Sets default values for this component's properties
 URocketEngine::URocketEngine()
@@ -22,6 +24,8 @@ void URocketEngine::BeginPlay()
 	BindToInput();
 
 	ResStorage = GetOwner()->FindComponentByClass<UResourcesStorage>();
+
+	StatusComp = GetOwner()->FindComponentByClass<UStatusComponent>();
 }
 
 void URocketEngine::GetOwnerRoot()
@@ -47,6 +51,7 @@ void URocketEngine::AddEngineForce(float DeltaTime)
 
 void URocketEngine::BindToInput()
 {
+	//InputComponent = GetOwner()->GetInstigatorController()->FindComponentByClass<UInputComponent>();
 	InputComponent = GetOwner()->FindComponentByClass<UInputComponent>();
 	
 	InputComponent->BindAxis("EngineForward");
@@ -72,6 +77,11 @@ void URocketEngine::FullStopFalse()
 void URocketEngine::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+	if (StatusComp->StatusIsActive(UStatusBusy::StaticClass()))
+	{
+		return;
+	}
 
 	for (const auto& Fuel : EngineData.Fuel)
 	{

@@ -50,4 +50,6 @@ private:
 	void UpdateRotation(float DeltaTime);
 
 	FRotator RotationInterp;
+
+	class UStatusComponent* StatusComp;
 };

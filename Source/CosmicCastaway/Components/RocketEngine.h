@@ -69,4 +69,6 @@ private:
 	FEngineData EngineData;
 
 	UResourcesStorage* ResStorage;
+
+	class UStatusComponent* StatusComp;
 };

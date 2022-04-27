@@ -2,6 +2,8 @@
 
 
 #include "Components/ShipOrientationComponent.h"
+#include "Components/StatusComponent.h"
+#include "Objects/Statuses/StatusBusy.h"
 
 // Sets default values for this component's properties
 UShipOrientationComponent::UShipOrientationComponent()
@@ -20,6 +22,8 @@ void UShipOrientationComponent::BeginPlay()
 	Super::BeginPlay();
 
 	BindToInput();
+
+	StatusComp = GetOwner()->FindComponentByClass<UStatusComponent>();
 }
 
 void UShipOrientationComponent::BindToInput()
@@ -40,6 +44,11 @@ void UShipOrientationComponent::UpdateRotation(float DeltaTime)
 	RotatorResult.Roll = MoveUpScale * InputComp->GetAxisValue("RotationZ");
 
 	RotatorResult *= InputScale;
+
+	if (StatusComp->StatusIsActive(UStatusBusy::StaticClass()))
+	{
+		RotatorResult = FRotator{};
+	}
 
 	RotationInterp = FMath::RInterpTo(RotationInterp, RotatorResult, DeltaTime, RotationInterpSpeed);
 	
