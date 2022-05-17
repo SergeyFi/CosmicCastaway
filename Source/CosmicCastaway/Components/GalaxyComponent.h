@@ -23,7 +23,7 @@ struct FWarpData
 	int32 SystemSize;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Data")
-	int32 WarpFuel;
+	float WarpFuel;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Data")
 	TArray<TSubclassOf<USystemTag>> Tags;
