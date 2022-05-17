@@ -14,6 +14,9 @@ struct FWarpData
 	GENERATED_BODY()
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Data")
+	FName Name;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Data")
 	TSoftObjectPtr<UWorld> Map;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Data")
