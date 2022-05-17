@@ -3,9 +3,39 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Engine/DataTable.h"
 #include "Components/ActorComponent.h"
+#include "Objects/SystemTag/SystemTag.h"
 #include "GalaxyComponent.generated.h"
 
+USTRUCT(BlueprintType)
+struct FWarpData
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Data")
+	TSoftObjectPtr<UWorld> Map;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Data")
+	int32 SystemSize;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Data")
+	int32 WarpFuel;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Data")
+	TArray<TSubclassOf<USystemTag>> Tags;
+};
+
+USTRUCT(BlueprintType)
+struct FSystemData : public FTableRowBase
+{
+	GENERATED_USTRUCT_BODY()
+
+public:
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Data")
+	FWarpData WarpData;
+};
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class COSMICCASTAWAY_API UGalaxyComponent : public UActorComponent
@@ -16,32 +46,25 @@ public:
 	// Sets default values for this component's properties
 	UGalaxyComponent();
 
-	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	UFUNCTION(BlueprintPure, Category = "Galaxy")
+	const TArray<FWarpData>& GetSystems();
+
+	UFUNCTION(BlueprintCallable, Category = "Galaxy")
+	void WarpToSystem(int32 SystemIndex);
 
 protected:
-	// Called when the game starts
+
 	virtual void BeginPlay() override;
-	
-	UPROPERTY(EditDefaultsOnly, Category = "Galaxy")
-	float Bound = 450000.0f;
-	
-	UPROPERTY(EditDefaultsOnly, Category = "Galaxy")
-	TSoftObjectPtr<UWorld> InitialLevel;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Galaxy")
-	float BrunchChance = 0.5f;
+	UDataTable* SystemsDataTable;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Galaxy")
+	int32 MaxSystemsCount = 3;
 
 private:
 
-	void CheckPlayerPosition();
+	void GenerateSystems();
 
-	UPROPERTY()
-	class ULevelStreamingDynamic* CurrentLevel;
-	
-	void NewLevel(FVector Direction, TSoftObjectPtr<UWorld>& Level);
-
-	bool Chance();
-
-	float InitialOffset;
+	TArray<FWarpData> SystemsWarpData;
 };
