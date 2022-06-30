@@ -21,7 +21,7 @@ void AAsteroid::BeginPlay()
 
 	RandomRotation = UKismetMathLibrary::RandomRotator();
 
-	Randomize();
+	RandomizeMesh();
 
 	GenerateOre();
 
@@ -43,7 +43,7 @@ void AAsteroid::SetChildCollision(bool bCollision)
 	}
 }
 
-void AAsteroid::Randomize()
+void AAsteroid::RandomizeMesh()
 {
 	if (AsteroidMeshes.Num() != 0)
 	{

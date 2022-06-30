@@ -72,7 +72,7 @@ private:
 
 	bool bIsSleep;
 
-	void Randomize();
+	void RandomizeMesh();
 
 	void GenerateOre();
 
