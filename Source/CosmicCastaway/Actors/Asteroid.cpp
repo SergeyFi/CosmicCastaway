@@ -63,13 +63,17 @@ void AAsteroid::GenerateOre()
 	{
 		auto SocketNames = AsteroidMesh->GetAllSocketNames();
 
-		for (auto i = 0; i < SocketNames.Num(); ++i)
-		{
-			auto Ore = GetWorld()->SpawnActor<AOre>(GetRandomOreClass(), AsteroidMesh->GetSocketTransform(SocketNames[i]));
+		auto RandomOreCount = FMath::RandRange(0, MaxOreCount);
 
-			Ores.Add(Ore);
+		for (auto i = 0; i < RandomOreCount; ++i)
+		{
+			auto RandomIndex = FMath::RandRange(0, SocketNames.Num() - 1);
 			
-			Ore->AttachToActor(this, FAttachmentTransformRules::KeepWorldTransform, SocketNames[i]);
+			auto Ore = GetWorld()->SpawnActor<AOre>(GetRandomOreClass(), AsteroidMesh->GetSocketTransform(SocketNames[RandomIndex]));
+			
+			Ore->AttachToActor(this, FAttachmentTransformRules::KeepWorldTransform, SocketNames[RandomIndex]);
+
+			SocketNames.RemoveAt(RandomIndex);
 		}
 	}
 }

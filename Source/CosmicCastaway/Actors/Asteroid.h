@@ -53,10 +53,10 @@ protected:
 	float ScaleMax = 10.0f;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Asteroid")
-	TArray<FOreInfo> OresInfo;
+	int32 MaxOreCount = 3;
 
-	UPROPERTY(VisibleAnywhere, Category = "Asteroid")
-	TArray<AOre*> Ores;
+	UPROPERTY(EditDefaultsOnly, Category = "Asteroid")
+	TArray<FOreInfo> OresInfo;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Asteroid")
 	UStaticMeshComponent* AsteroidMesh;
